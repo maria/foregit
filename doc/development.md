@@ -20,6 +20,9 @@ You can create a Vagrant box following [my tutorial](https://github.com/marianit
  config.vm.synced_folder("~/foreman/", "/home/vagrant/foreman")
 ```
 
+! You have to restart Vagrant to have access to it -- `vagrant reload`.
+
+
 ## Install Ruby
 
 Foreman and Foregit are written in Ruby/Rails, so it's understandble why you need this.
@@ -27,49 +30,57 @@ Foreman and Foregit are written in Ruby/Rails, so it's understandble why you nee
 #### Install [RVM](http://rvm.io/)
 
 
-  - Install CURL
-
-```$ sudo apt-get install curl```
+  - Install cURL: 
+    - Debian (Ubuntu): ```sudo apt-get install curl```
+    - Red Hat: ```yum install curl```
 
   - Install RVM                       
 
-     - Download and install: ```$ curl -L https://get.rvm.io | bash -s stable```
-     - Make it available for all users: ```$ source /etc/profile```
+     - Download and install: ```curl -L https://get.rvm.io | bash -s stable```
+     - Make it available for all users: ```source /etc/profile```
 
 
   - Check installation
    
-    - Type: ```$ type rvm | head -n 1```
+    - Type: ```type rvm | head -n 1```
     - You should see: ```rvm is a function```
     
 
 #### Install Ruby
 
-  - Install a specific version of Ruby, you can add a newer or older version: ```$ rvm install 2.0.0```
-  - Ensure your version is used by default (you can install more versions): ```$ rvm use 2.0.0 --default```
+  - Install a specific version of Ruby, you can add a newer or older version: ```rvm install 2.0.0```
+  - Ensure your version is used by default (you can install more versions): ```rvm use 2.0.0 --default```
 
 
 #### Install Rails
 
 You should check your project Gemfile to see what version you need.
-
 `gem` is preinstalled viw RVM, and it's a package manager for Ruby libraries.
 
-Install Rails: ```$ gem install rails -v 4.0.0```
+   - Install Rails: ```gem install rails -v 4.0.0```
 
+## Install smart-proxy
+
+#### Install
+
+- Debian (Ubuntu): ```sudo apt-get install foreman-proxy```
+- Red Hat: ```yum localinstall http://yum.theforeman.org/releases/1.5/el6/x86_64/foreman-release.rpm```
+
+#### Star daemon
+
+``` bin/smart-proxy.rb```
 
 ## Install libvirt
 
-- Install
-```
-$ sudo apt-get install libvirt-bin
-```
+#### Install:
+  
+   - Debian (Ubuntu): ```sudo apt-get install libvirt-bin```
+   - Red Hat: ```yum -y install libvirt```
 
-- Change default network configuration
- 
-```
-vim /var/lib/libvirt/network/default.xml
-```
+#### Change default network configuration
+   
+  - Debian (Ubuntu): ```vim /var/lib/libvirt/network/default.xml```
+   - Red Hat: ?
 
 Rewrite it with:
 
@@ -92,7 +103,9 @@ Rewrite it with:
 
 ```
 
--
+#### Configure libvirt (TFTP)
+
+  - Debian (Ubuntu):
 
 ```
 mkdir -p /var/tftproot/{boot,pxelinux.cfg}
@@ -101,8 +114,20 @@ cp /usr/lib/syslinux/{pxelinux.0,menu.c32,chain.c32} /var/tftproot
 sudo chown -R foreman-proxy /var/tftproot/
 ```
 
-- Change Foreman settings, add in `foreman/config/settings.yml`:
-- 
+  - Red Hat:
+
+```
+mkdir -p /var/tftproot/{boot,pxelinux.cfg}
+  yum -y install syslinux
+cp /usr/share/syslinux/{pxelinux.0,menu.c32,chain.c32} /var/tftproot
+chown -R foreman-proxy:nobody /var/tftproot
+find /var/tftproot/ -type d | xargs chmod g+s
+```
+
+#### Change Foreman proxy settings
+
+Add in `foreman/config/settings.yml`:
+ 
 ```yml
 :tftp: true
 :tftproot: /var/tftproot
@@ -166,6 +191,4 @@ foreman-dev.myhost.local   10.0.0.2
 https://foreman-dev
 ```
 
-######
-
-Play :).
+### Play :).
