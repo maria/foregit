@@ -61,14 +61,12 @@ You should check your project Gemfile to see what version you need.
 
 ## Install smart-proxy
 
-#### Install
+- Install:
+  - Debian (Ubuntu): ```sudo apt-get install foreman-proxy```
+  - Red Hat: ```yum localinstall http://yum.theforeman.org/releases/1.5/el6/x86_64/foreman-release.rpm```
 
-- Debian (Ubuntu): ```sudo apt-get install foreman-proxy```
-- Red Hat: ```yum localinstall http://yum.theforeman.org/releases/1.5/el6/x86_64/foreman-release.rpm```
+- Start daemon: ```bin/smart-proxy.rb```
 
-#### Star daemon
-
-``` bin/smart-proxy.rb```
 
 ## Install libvirt
 
@@ -78,11 +76,11 @@ You should check your project Gemfile to see what version you need.
    - Red Hat: ```yum -y install libvirt```
 
 #### Change default network configuration
-   
+  
+- Open file:
   - Debian (Ubuntu): ```vim /var/lib/libvirt/network/default.xml```
-   - Red Hat: ?
 
-Rewrite it with:
+- Rewrite it with:
 
 ```xml
 <network>
@@ -100,8 +98,8 @@ Rewrite it with:
    </dhcp>
  </ip>
 </network>
-
 ```
+
 
 #### Configure libvirt (TFTP)
 
