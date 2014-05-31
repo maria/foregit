@@ -59,14 +59,21 @@ You should check your project Gemfile to see what version you need.
 
    - Install Rails: ```gem install rails -v 4.0.0```
 
-## Install smart-proxy
+## Install Foreman and Smart Proxy
+- Add source list to your OS known sources
+
+**! Change `wheezy` with your Debian flavour, for example for Ubuntu 12.04 replace it with `precise`.**
+
+```
+sudo su
+echo "deb http://deb.theforeman.org/ wheezy 1.5" > /etc/apt/sources.list.d/foreman.list
+echo "deb http://deb.theforeman.org/ plugins 1.5" >> /etc/apt/sources.list.d/foreman.list
+wget -q http://deb.theforeman.org/foreman.asc -O- | apt-key add -
+```
 
 - Install:
   - Debian (Ubuntu): ```sudo apt-get install foreman-proxy```
   - Red Hat: ```yum localinstall http://yum.theforeman.org/releases/1.5/el6/x86_64/foreman-release.rpm```
-
-- Start daemon: ```bin/smart-proxy.rb```
-
 
 ## Install libvirt
 
@@ -144,9 +151,6 @@ Add in `foreman/config/settings.yml`:
 For Ubuntu 12.04 (the default flavor for my Vagrant setup):
 
 ```
-echo "deb http://deb.theforeman.org/ precise 1.5" > /etc/apt/sources.list.d/foreman.list
-echo "deb http://deb.theforeman.org/ plugins 1.5" >> /etc/apt/sources.list.d/foreman.list
-wget -q http://deb.theforeman.org/foreman.asc -O- | apt-key add -
 apt-get update && apt-get install foreman-installer
 ```
 
