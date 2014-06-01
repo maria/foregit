@@ -7,7 +7,7 @@ class Settings < OpenStruct
   def self.load_from_file(settings_path=nil)
     if settings_path.nil?
       settings_path = Pathname.new(__FILE__).join("..","..","config",
-                                                  "settings.yml")
+                                                  "settings.yaml")
     end
 
     settings = YAML.load(File.read(settings_path))
