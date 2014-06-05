@@ -14,10 +14,15 @@ Effectively, you would have a git repository representing the whole infrastructu
 
 [Chef](http://docs.opscode.com/) has a similar tool called [Knife](http://docs.opscode.com/knife.html).
 
-## OPW
+### OPW
 
  - The project is developt during [GNOME Outreach Program for Women](http://gnome.org/opw/).
  - Organization: [Foreman](http://theforeman.org/gnomeopw.html)
  - Mentor: Ivan Nečas
  - [Updates on the program and project](https://medium.com/life-opw)
 
+### Status
+ 
+ ![Build status](https://travis-ci.org/marianitadn/foregit.svg)
+
+Currently working at the first release. :)
