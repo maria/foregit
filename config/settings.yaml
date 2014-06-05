@@ -1,6 +1,0 @@
-api_url: 'http://foreman/'
-api_version: 2
-consumer_key: 'katelo'
-consumer_secret: 'sssh'
-timeout: 2
-api_user: 'admin'

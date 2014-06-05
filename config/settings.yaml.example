@@ -1,0 +1,6 @@
+api_url: 'http://api.foreman'
+api_version: 2
+consumer_key: 'key'
+consumer_secret: 'secret'
+timeout: 2
+api_user: 'admin'
