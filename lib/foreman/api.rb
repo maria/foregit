@@ -7,6 +7,7 @@ class Foreman
   class Api
     include Foregit
 
+    # Public class method: Create a new API conenction to Foreman.
     def self.api
       @api ||= ApipieBindings::API.new({
         :uri => Foregit::SETTINGS[:api_url],

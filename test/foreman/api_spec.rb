@@ -5,7 +5,7 @@ require_relative '../../lib/foreman/api'
 
 describe Foreman::Api do
 
-  describe '#initialize' do
+  describe '#api' do
     puts 'Test'
   end
 
