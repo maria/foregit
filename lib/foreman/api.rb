@@ -7,7 +7,7 @@ class Foreman
   class Api
     include Foregit
 
-    def initialize
+    def self.api
       @api ||= ApipieBindings::API.new({
         :uri => Foregit::SETTINGS[:api_url],
         :api_version => Foregit::SETTINGS[:api_version],
