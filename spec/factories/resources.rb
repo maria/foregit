@@ -1,7 +1,7 @@
 
 FactoryGirl.define do
 
-  # Decribe a resource of type :architecture downloaded from a Foreman instance.
+  # Decribe Foreman resources like: architectures, hosts_groups to mock API responses
   factory :resources do
 
     initialize_with do
@@ -17,8 +17,8 @@ FactoryGirl.define do
     end
 
     trait :timestamps do
-      created_at    "2014-05-31T18:54:58Z"
-      updated_at    "2014-05-31T18:54:58Z"
+      created_at    { 1.day.ago }
+      updated_at    { 1.hour.ago }
     end
   end
 
