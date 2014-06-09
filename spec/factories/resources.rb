@@ -4,10 +4,6 @@ FactoryGirl.define do
   # Decribe Foreman resources like: architectures, hosts_groups to mock API responses
   factory :resources do
 
-    initialize_with do
-      new.class.construct_from_response(attributes)
-    end
-
     trait :id do
       sequence(:id) { |n| n}
     end
