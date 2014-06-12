@@ -3,9 +3,9 @@ require 'json'
 
 require 'rspec'
 
-require_relative '../../lib/foregit'
-require_relative '../../lib/foreman/api'
-require_relative '../../lib/foreman/download'
+require 'foregit'
+require 'foreman/api'
+require 'foreman/download'
 
 describe Foreman::Download do
 

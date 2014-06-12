@@ -1,6 +1,6 @@
 require 'apipie-bindings'
 
-require_relative '../foregit'
+require 'foregit'
 
 class Foreman
 

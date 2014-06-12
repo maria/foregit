@@ -1,5 +1,5 @@
-require_relative '../foregit'
-require_relative 'api'
+require 'foregit'
+require 'foreman/api'
 
 class Foreman
 
