@@ -1,6 +1,6 @@
 module Foregit
 
-  require_relative 'settings'
+  require 'settings'
   SETTINGS = Settings.load_from_file
 
 end
