@@ -77,10 +77,10 @@ describe FileManager do
 
   end
 
-  describe '#dump_object_in_file' do
+  describe '#dump_object_as_file' do
 
     context 'dumping a valid JSON in an existent file' do
-      it 'the file should contain the resource' do
+      it 'the file should contain the resource content' do
 
         repo_path = Dir.pwd
         file = 'test.json'
@@ -88,15 +88,37 @@ describe FileManager do
         File.open(file_path, 'w') {}
 
         manage = FileManager.new(repo_path)
-        resource = {:resources => [:architectures, :hosts_groups]}
+        resource = {:content => {:resources => [:architectures, :hosts_groups]}}
 
-        expect(manage.dump_object_in_file(resource, file)).to be(nil)
-        expect(File.read(file_path)).to match(resource.to_json)
+        expect(manage.dump_object_as_file(resource, file)).to be(nil)
+        expect(File.read(file_path)).to match(resource[:content].to_json)
 
         File.delete(file_path)
       end
-
     end
+
+    context 'dumping a valid JSON in an inexistent file' do
+      it 'the file should contain the resource content after is created' do
+        repo_path = Dir.pwd
+        architectures = build(:architectures)
+        manage = FileManager.new(repo_path)
+        resource = {
+            :type => 'architectures',
+            :name => architectures.name,
+            :content => {:resources => [:architectures, :hosts_groups]}
+        }
+
+        expect(manage.dump_object_as_file(resource)).to match(nil)
+
+        file_path = manage.find_file('architectures/' + architectures.name + '.json')
+
+        expect(File.read(file_path)).to match(resource[:content].to_json)
+
+        File.delete(file_path)
+        Dir.delete(File.dirname(file_path))
+      end
+    end
+
   end
 
 end
