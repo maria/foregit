@@ -10,6 +10,7 @@ describe Foreman::Download do
   before (:each) do
     # Ensure we set in the settings file the expected resource
     Foregit::SETTINGS.resources = :architectures
+
     # Mock Foreman API response
     @binding = Foreman::Download.new
     allow(@binding.api).to receive(:call).and_return(build(:resources).to_json)
