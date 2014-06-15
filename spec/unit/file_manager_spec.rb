@@ -1,5 +1,6 @@
-require 'spec_helper'
+require 'json'
 
+require 'spec_helper'
 require 'foregit'
 require 'file_manager'
 
@@ -74,6 +75,28 @@ describe FileManager do
       end
     end
 
+  end
+
+  describe '#dump_object_in_file' do
+
+    context 'dumping a valid JSON in an existent file' do
+      it 'the file should contain the resource' do
+
+        repo_path = Dir.pwd
+        file = 'test.json'
+        file_path = repo_path + '/' + file
+        File.open(file_path, 'w') {}
+
+        manage = FileManager.new(repo_path)
+        resource = {:resources => [:architectures, :hosts_groups]}
+
+        expect(manage.dump_object_in_file(resource, file)).to be(nil)
+        expect(File.read(file_path)).to match(resource.to_json)
+
+        File.delete(file_path)
+      end
+
+    end
   end
 
 end
