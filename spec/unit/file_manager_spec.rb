@@ -59,8 +59,18 @@ describe FileManager do
     end
 
     context 'file path when the file is not inside the given repo' do
+      repo_path = '/home/test/repo/path'
+      manager = FileManager.new(repo_path)
 
       it 'should return nil we pass the path of a file outside the repo' do
+        file = 'test'
+        file_path = '/home/test/repo/path/test'
+
+        expect(FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
+        expect(FileManager::File).to receive(:join).with(repo_path, file).and_return(file_path)
+        expect(manager).to receive(:can_read_file?).twice.with(file_path).and_return(false)
+
+        expect(manager.find_file file).to be(nil)
       end
     end
 
