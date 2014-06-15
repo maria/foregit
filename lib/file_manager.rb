@@ -1,3 +1,5 @@
+require 'json'
+
 require 'foregit'
 
 class FileManager
@@ -30,6 +32,13 @@ class FileManager
         return full_path
       end
     end
+  end
+
+  def dump_object_in_file(resource, file)
+    file_path = find_file(file)
+    opened_file = File.open(file_path, 'w')
+    object = opened_file.write(JSON.dump(resource))
+    opened_file.close
   end
 
   def can_read_file?(file)
