@@ -8,13 +8,7 @@ class FileManager
   attr_reader :repo_path
 
   def initialize(repo_path=nil)
-    if !repo_path.nil?
-      @repo_path = repo_path
-    elsif repo_path.nil? and !Foregit::SETTINGS.repo_path.nil?
-      @repo_path = Foregit::SETTINGS.repo_path
-    else
-      raise ArgumentError, 'No path for the repository was given!'
-    end
+    @repo_path = repo_path || Foregit::SETTINGS.repo_path or raise ArgumentError, 'No path for the repository was given!'
   end
 
   def repo_path
@@ -54,17 +48,13 @@ class FileManager
 
   def ensure_directory(directory)
     dir_path = File.join(@repo_path, directory)
-    if !Dir.exists?(dir_path)
-      FileUtils.mkdir(dir_path)
-    end
+    FileUtils.mkdir(dir_path) unless Dir.exists?(dir_path)
     return dir_path
   end
 
   def ensure_file(directory, file, extension='.json')
     file_path = File.join(directory, file + extension)
-    if !File.exists?(file_path)
-      FileUtils.touch(file_path)
-    end
+    FileUtils.touch(file_path) unless File.exists?(file_path)
     return file_path
   end
 
