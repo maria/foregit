@@ -1,23 +1,19 @@
 # Test the API binding used to download Foreman instance
 require 'json'
 
-require 'rspec'
-
 require 'foregit'
-require 'foreman/api'
 require 'foreman/download'
+require 'spec_helper'
 
 describe Foreman::Download do
 
   before (:each) do
     # Ensure we set in the settings file the expected resource
     Foregit::SETTINGS.resources = :architectures
-
-    # Mock Foreman API response for resources
-    @api = Foreman::Api.api
-    allow(@api).to receive(:call).and_return(build(:resources).to_json)
-
+    # Mock Foreman API response
     @binding = Foreman::Download.new
+    allow(@binding.api).to receive(:call).and_return(build(:resources).to_json)
+
   end
 
   describe '#download_resources' do

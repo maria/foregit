@@ -5,7 +5,9 @@ class Foreman
 
   class Download
 
-    def initialize
+    attr_reader :api
+
+    def api
       @api ||= Foreman::Api.api
     end
 
