@@ -11,20 +11,20 @@ describe FileManager do
 
     it 'should set repo_path when is set in settings' do
       repo_path = '/home/test/repo/path'
-      Foregit::SETTINGS[:repo_path] = repo_path
+      Foregit::SETTINGS.repo_path = repo_path
       manager = FileManager.new
       expect(manager.repo_path).to be(repo_path)
     end
 
     it 'should set repo_path when is given' do
       repo_path = '/home/test/repo/path'
-      Foregit::SETTINGS[:repo_path] = '/home/test/false/repo/path'
+      Foregit::SETTINGS.repo_path = '/home/test/false/repo/path'
       manager = FileManager.new repo_path
       expect(manager.repo_path).to be(repo_path)
     end
 
     it 'should raise an error when no repo_path is set' do
-      Foregit::SETTINGS[:repo_path] = nil
+      Foregit::SETTINGS.repo_path = nil
       expect{FileManager.new}.to raise_error(ArgumentError)
     end
 

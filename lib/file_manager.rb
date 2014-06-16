@@ -10,8 +10,8 @@ class FileManager
   def initialize(repo_path=nil)
     if !repo_path.nil?
       @repo_path = repo_path
-    elsif repo_path.nil? and !Foregit::SETTINGS[:repo_path].nil?
-      @repo_path = Foregit::SETTINGS[:repo_path]
+    elsif repo_path.nil? and !Foregit::SETTINGS.repo_path.nil?
+      @repo_path = Foregit::SETTINGS.repo_path
     else
       raise ArgumentError, 'No path for the repository was given!'
     end
