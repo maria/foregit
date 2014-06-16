@@ -10,8 +10,7 @@ class Settings < OpenStruct
                                                   "settings.yaml")
     end
 
-    settings = YAML.load(File.read(settings_path))
-    Settings.new(settings)
+    settings = Settings.new(YAML.load(File.read(settings_path)))
   end
 
 end

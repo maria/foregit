@@ -1,6 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (4.1.1)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
     apipie-bindings (0.0.8)
       awesome_print
       json (>= 1.2.1)
@@ -9,8 +15,12 @@ GEM
       rest-client (>= 1.6.1)
     awesome_print (1.2.0)
     diff-lcs (1.2.5)
+    factory_girl (2.6.4)
+      activesupport (>= 2.3.9)
+    i18n (0.6.9)
     json (1.8.1)
     mime-types (1.25.1)
+    minitest (5.3.4)
     oauth (0.4.7)
     rake (10.3.2)
     rest-client (1.6.7)
@@ -27,11 +37,15 @@ GEM
     rspec-mocks (3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.0)
+    thread_safe (0.3.4)
+    tzinfo (1.2.0)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   apipie-bindings
+  factory_girl
   rake
   rspec
