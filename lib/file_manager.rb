@@ -36,19 +36,20 @@ class FileManager
   end
 
   def dump_object_as_file(resource, file=nil)
-    if !file.nil?
-      file_path = find_file(file)
-
-    elsif file.nil?
+    if file.nil?
       # If we don't have a file, it means it's a new configuration and a new
       # file has to be created beforehand.
       dir_path = ensure_directory(resource[:type])
       file_path = ensure_file(dir_path, resource[:name])
+    else
+      file_path = find_file(file)
     end
 
-    opened_file = File.open(file_path, 'w')
-    object = opened_file.write(JSON.dump(resource[:content]))
-    opened_file.close
+    File.open(file_path, 'w') do |file|
+      file.write(JSON.dump(resource[:content]))
+    end
+
+    return file_path
   end
 
   def ensure_directory(directory)
