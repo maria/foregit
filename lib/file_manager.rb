@@ -24,7 +24,7 @@ class FileManager
   def find_file(file)
     relative_path = File.expand_path(file)
 
-    if can_read_file?(relative_path) and File.fnmatch?(@repo_path + '*', relative_path)
+    if can_read_file?(relative_path) && File.fnmatch?(@repo_path + '*', relative_path)
       return relative_path
 
     else
