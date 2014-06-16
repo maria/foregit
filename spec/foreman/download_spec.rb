@@ -11,7 +11,7 @@ describe Foreman::Download do
 
   before (:each) do
     # Ensure we set in the settings file the expected resource
-    Foregit::SETTINGS[:resources] = :architectures
+    Foregit::SETTINGS.resources = :architectures
 
     # Mock Foreman API response for resources
     @api = Foreman::Api.api
@@ -41,7 +41,7 @@ describe Foreman::Download do
     context 'download resources raises error when no resource is set' do
       it 'should raise ArgumentError' do
         # Ensure no resources are set to be downloaded from Foreman
-        Foregit::SETTINGS.delete(:resources)
+        Foregit::SETTINGS.resources = nil
         expect{@binding.download_resources}.to raise_error(ArgumentError)
       end
     end

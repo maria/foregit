@@ -11,7 +11,6 @@ class Settings < OpenStruct
     end
 
     settings = Settings.new(YAML.load(File.read(settings_path)))
-    settings.to_h
   end
 
 end

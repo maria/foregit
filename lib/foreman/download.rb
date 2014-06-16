@@ -42,8 +42,8 @@ class Foreman
      def get_resources_to_download(resources)
 
       if resources.nil?
-        if Foregit::SETTINGS.has_key? :resources
-          resources = Foregit::SETTINGS[:resources]
+        if !Foregit::SETTINGS.resources.nil?
+          resources = Foregit::SETTINGS.resources
         else
           raise ArgumentError, 'No list of resources to download.'
         end
