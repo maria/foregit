@@ -13,7 +13,7 @@ describe Foreman::Download do
 
     # Mock Foreman API response
     @binding = Foreman::Download.new
-    allow(@binding.api).to receive(:call).and_return(build(:resources).to_json)
+    allow(@binding.api).to receive(:call).and_return(build(:architectures).to_json)
 
   end
 
