@@ -16,6 +16,6 @@ end.parse!
 if options.has_key? :sync
     puts "Sync Foreman resources..."
     sync = Sync.new
-    sync.sync_foreman_to_git
+    sync.pull
     puts "Done!"
 end

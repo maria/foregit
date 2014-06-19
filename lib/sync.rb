@@ -16,7 +16,7 @@ class Sync
     @api = Foreman::Api.api
   end
 
-  def sync_foreman_to_git
+  def pull
     download_manager = Foreman::Download.new(@api)
     resources = download_manager.download_resources
     file_manager = FileManager.new
