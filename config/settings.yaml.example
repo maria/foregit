@@ -6,3 +6,5 @@ timeout: 2
 api_user: 'admin'
 # An array of Foreman resources managed by Foregit
 resources: :architectures
+# Git repository path
+repo_path: '/home/user/foregit/'
