@@ -7,8 +7,8 @@ class Foreman
 
     attr_reader :api
 
-    def api
-      @api ||= Foreman::Api.api
+    def initialize(api=nil)
+      @api = api || Foreman::Api.api
     end
 
     # Public: Download a list of resources from a Foreman instance.
