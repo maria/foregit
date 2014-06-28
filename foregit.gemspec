@@ -15,5 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths    = ["lib"]
 
   s.add_dependency 'apipie-bindings', '>= 0.0.8'
+  s.add_dependency 'hammer_cli'
+  s.add_dependency 'hammer_cli_foreman'
 
 end
