@@ -27,3 +27,12 @@ command :pull do |c|
   end
 end
 
+command :push do |c|
+  c.syntax = 'foregit-talk push [options]'
+  c.summary = 'Upload changes from the Git repository to the Foreman instance'
+  c.action do |args, options|
+    puts "Upload changes to Foreman..."
+    TalkCommands.push
+    puts "Done!"
+  end
+end

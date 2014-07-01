@@ -27,4 +27,7 @@ class TalkCommands
       end
     end
   end
+
+  def self.push
+  end
 end
