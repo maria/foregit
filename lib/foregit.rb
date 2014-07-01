@@ -2,7 +2,7 @@ module Foregit
 
   require 'settings'
   require 'file_manager'
-  require 'sync'
+  require 'talk_commands'
   require 'command'
 
   require 'foreman/api'

@@ -5,18 +5,13 @@ sync command
     - file manager
 =end
 
-require 'foregit'
 require 'file_manager'
 require 'foreman/api'
 require 'foreman/download'
 
-class Sync
+class TalkCommands
 
-  def initialize
-    @api = Foreman::Api.api
-  end
-
-  def pull
+  def self.pull
     download_manager = Foreman::Download.new(@api)
     resources = download_manager.download_resources
     file_manager = FileManager.new

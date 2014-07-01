@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require 'optparse'
 
-require 'sync'
+require 'talk_commands'
 
 options = {}
 OptionParser.new do |opts|
@@ -15,7 +15,6 @@ end.parse!
 
 if options.has_key? :sync
     puts "Sync Foreman resources..."
-    sync = Sync.new
-    sync.pull
+    TalkCommands.pull
     puts "Done!"
 end
