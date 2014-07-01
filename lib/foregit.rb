@@ -3,7 +3,6 @@ module Foregit
   require 'settings'
   require 'file_manager'
   require 'talk_commands'
-  require 'command'
 
   require 'foreman/api'
   require 'foreman/download'
