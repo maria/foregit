@@ -25,6 +25,7 @@ class Foreman
       foreman_resources = Hash.new
 
       resources.each do |resource|
+        resource = resource.to_sym if resource.is_a? String
         foreman_resources[resource] = @api.call(resource, :index)['results']
       end
 

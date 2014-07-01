@@ -6,14 +6,13 @@ sync command
 =end
 
 require 'file_manager'
-require 'foreman/api'
 require 'foreman/download'
 
 class TalkCommands
 
-  def self.pull
-    download_manager = Foreman::Download.new(@api)
-    resources = download_manager.download_resources
+  def self.pull(foreman_resources=nil)
+    download_manager = Foreman::Download.new
+    resources = download_manager.download_resources(foreman_resources)
     file_manager = FileManager.new
 
     resources.each do |resource_type, resources_content|
