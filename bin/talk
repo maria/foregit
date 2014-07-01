@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+
+require 'talk_commands'
+
+program :name, 'foregit-talk'
+program :version, '0.0.1'
+program :description, 'Talking commands to communicate between a Foreman instance and a Git repository.'
+
+command :pull do |c|
+  c.syntax = 'foregit-talk pull [options]'
+  c.summary = 'Download the Foreman resources and save them as files in the Git repo'
+  c.option '--resources', Array, 'A list of resources to pull and save'
+  c.action do |args, options|
+    puts "Sync Foreman resources..."
+    TalkCommands.pull
+    puts "Done!"
+  end
+end
+
