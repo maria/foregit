@@ -7,8 +7,8 @@ class Foreman
 
     attr_reader :api
 
-    def api
-      @api ||= Foreman::Api.api
+    def initialize(api=nil)
+      @api = api || Foreman::Api.api
     end
 
     # Public: Download a list of resources from a Foreman instance.
@@ -25,6 +25,7 @@ class Foreman
       foreman_resources = Hash.new
 
       resources.each do |resource|
+        resource = resource.to_sym if resource.is_a? String
         foreman_resources[resource] = @api.call(resource, :index)['results']
       end
 
