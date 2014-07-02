@@ -21,7 +21,7 @@ class GitManager
       @git.pull
       # Get differences between commit
       new_last_commit_sha = @git.log(1)[0].sha
-      commits_diff = @git.diff(last_commit_sha, new_last_commit_sha)
+      commits_diff = @git.diff(new_last_commit_sha, last_commit_sha)
 
       if commits_diff.size == 0
         puts 'Everything is up to date!'
