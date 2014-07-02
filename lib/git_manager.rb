@@ -1,10 +1,12 @@
 require 'git'
 
 require 'foregit'
+require 'file_manager'
 
 class GitManager
 
     def initialize
+      @file_manager = FileManager.new(Foregit::SETTINGS.repo_path)
       @git = Git.open(Foregit::SETTINGS.repo_path)
     end
 
@@ -19,7 +21,7 @@ class GitManager
       @git.pull
       # Get differences between commit
       new_last_commit_sha = @git.log(1)[0].sha
-      commits_diff = @git.diff(last_commit_sha, new_last_commit_sha).path('resources/')
+      commits_diff = @git.diff(last_commit_sha, new_last_commit_sha)
     end
 
     def apply_diff(commits_diff)
@@ -28,7 +30,10 @@ class GitManager
       end
       # Get changes and apply them to Foreman instance
       commits_diff.stats[:files].each do |file, stats|
-        puts file
+        puts "Update/add Foreman resource #{file}..."
+        data = file_manager.load_file_as_json(file)
+        puts data
+        puts "Done!"
       end
     end
 
