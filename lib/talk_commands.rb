@@ -41,8 +41,8 @@ class TalkCommands
     changes = git_manager.get_diff
 
     changes.each do |file, stats|
-        data = file_manager.load_file_as_json(file)
-        @binding.upload_resource(file, data)
+      data = file_manager.load_file_as_json(file)
+      @binding.call_action(file, :create, data)
     end
   end
 end

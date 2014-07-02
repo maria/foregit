@@ -46,13 +46,14 @@ class Foreman
 
     def upload_resources(resources)
       resources.each do |resource_name, resource_data|
-        upload_resource(name, data)
+        call_action(name, :create, data)
       end
     end
 
-    def upload_resource(name, data)
+    def call_action(name, action, data)
         name = name.to_sym if name.is_a? String
-        @api.call(name, :update, data)
+        action = action.to_sym if action.is_a? String
+        @api.call(name, action, data)
     end
 
     private
