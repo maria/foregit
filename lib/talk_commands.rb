@@ -6,6 +6,7 @@ sync command
 =end
 
 require 'file_manager'
+require 'git_manager'
 require 'foreman/download'
 
 class TalkCommands
@@ -29,5 +30,7 @@ class TalkCommands
   end
 
   def self.push
+    git_manager = GitManager.new
+    git_manager.apply_diff(git_manager.get_diff)
   end
 end
