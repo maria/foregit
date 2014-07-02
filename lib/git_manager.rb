@@ -22,19 +22,11 @@ class GitManager
       # Get differences between commit
       new_last_commit_sha = @git.log(1)[0].sha
       commits_diff = @git.diff(last_commit_sha, new_last_commit_sha)
-    end
 
-    def apply_diff(commits_diff)
       if commits_diff.size == 0
         puts 'Everything is up to date!'
       end
-      # Get changes and apply them to Foreman instance
-      commits_diff.stats[:files].each do |file, stats|
-        puts "Update/add Foreman resource #{file}..."
-        data = file_manager.load_file_as_json(file)
-        puts data
-        puts "Done!"
-      end
+      commits_diff.stats[:files]
     end
 
 end

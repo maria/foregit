@@ -7,13 +7,18 @@ sync command
 
 require 'file_manager'
 require 'git_manager'
-require 'foreman/download'
+require 'foreman/api'
 
 class TalkCommands
 
-  def self.pull(foreman_resources=nil)
-    download_manager = Foreman::Download.new
-    resources = download_manager.download_resources(foreman_resources)
+  attr_reader :binding
+
+  def initialize
+    @binding = Foreman::Api.new
+  end
+
+  def pull(foreman_resources=nil)
+    resources = @binding.download_resources(foreman_resources)
     file_manager = FileManager.new
 
     resources.each do |resource_type, resources_content|
@@ -29,8 +34,13 @@ class TalkCommands
     end
   end
 
-  def self.push
+  def push
     git_manager = GitManager.new
-    git_manager.apply_diff(git_manager.get_diff)
+    changes = git_manager.get_diff
+
+    changes.each do |file, stats|
+        data = file_manager.load_file_as_json(file)
+        @binding.upload_resource(file, data)
+    end
   end
 end
