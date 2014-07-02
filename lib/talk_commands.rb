@@ -17,6 +17,7 @@ class TalkCommands
     @binding = Foreman::Api.new
   end
 
+  # Download resources from Foreman and save them as files in the Git repo
   def pull(foreman_resources=nil)
     resources = @binding.download_resources(foreman_resources)
     file_manager = FileManager.new
@@ -34,6 +35,7 @@ class TalkCommands
     end
   end
 
+  # Get all the files from the Git repo and create/update the Foreman resources
   def push
     git_manager = GitManager.new
     changes = git_manager.get_diff
