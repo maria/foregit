@@ -46,6 +46,21 @@ class FileManager
     return file_path
   end
 
+  def load_file_as_json(file)
+    # Ensure file exists and that we can read it.
+    if not can_read_file?(file)
+      raise ArgumentError, "The file#{file} doesn't exists!"
+    end
+    # Get file content.
+    file_path = find_file(file)
+    file_content = File.open(file_path, 'r').read
+    # Remove automatic fields, they are set when the object are updated in the
+    # Foreman instance DB.
+    file_content.delete('created_at')
+    file_content.delete('updated_at')
+    return JSON.load(file_content)
+  end
+
   def ensure_directory(directory)
     dir_path = File.join(@repo_path, directory)
     FileUtils.mkdir(dir_path) unless Dir.exists?(dir_path)
