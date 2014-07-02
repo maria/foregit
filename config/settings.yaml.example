@@ -8,3 +8,5 @@ api_user: 'admin'
 resources: :architectures
 # Git repository path
 repo_path: '/home/user/foregit/'
+# The Git branch which should sync with Foreman
+repo_branch: 'master'
