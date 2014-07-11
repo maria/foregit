@@ -40,10 +40,23 @@ class FileManager
     end
 
     File.open(file_path, 'w') do |file|
-      file.write(JSON.dump(resource[:content]))
+      content = remove_extra_content(resource[:content])
+      file.write(JSON.dump(content))
     end
 
     return file_path
+  end
+
+  def load_file_as_json(file)
+    # Ensure file exists and that we can read it.
+    if not can_read_file?(file)
+      raise ArgumentError, "The file#{file} doesn't exists!"
+    end
+    # Get file content.
+    file_path = find_file(file)
+    file_content = File.open(file_path, 'r').read
+
+    return JSON.load(remove_extra_content(file_content))
   end
 
   def ensure_directory(directory)
@@ -60,6 +73,15 @@ class FileManager
 
   def can_read_file?(file)
     File.exists?(file) && File.readable?(file)
+  end
+
+  def remove_extra_content(content)
+    # Remove fields which should be ignored, most of them are set when the
+    # element is updated in the Foreman instance.
+    Foregit::SETTINGS.ignored_foreman_fields.each do |field|
+      content.delete(field)
+    end
+    return content
   end
 
 end

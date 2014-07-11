@@ -8,3 +8,8 @@ api_user: 'admin'
 resources: :architectures
 # Git repository path
 repo_path: '/home/user/foregit/'
+# The Git branch which should sync with Foreman
+repo_branch: 'master'
+# A list of fields which should be removed from a Foreman resource before/after
+# are synced within the instance and repo.
+ignored_foreman_fields: ['created_at', 'updated_at']

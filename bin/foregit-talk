@@ -9,6 +9,8 @@ program :name, 'foregit-talk'
 program :version, '0.0.1'
 program :description, 'Talking commands to communicate between a Foreman instance and a Git repository.'
 
+talk = TalkCommands.new
+
 command :pull do |c|
   c.syntax = 'foregit-talk pull [options]'
   c.summary = 'Download the Foreman resources and save them as files in the Git repo'
@@ -21,9 +23,17 @@ command :pull do |c|
     else
       pull_resources = nil
     end
-
-    TalkCommands.pull pull_resources
+    talk.pull pull_resources
     puts "Done!"
   end
 end
 
+command :push do |c|
+  c.syntax = 'foregit-talk push [options]'
+  c.summary = 'Upload changes from the Git repository to the Foreman instance'
+  c.action do |args, options|
+    puts "Upload changes to Foreman..."
+    talk.push
+    puts "Done!"
+  end
+end
