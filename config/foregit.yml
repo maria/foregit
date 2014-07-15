@@ -1,0 +1,18 @@
+:foregit:
+    :enable_module: true
+    # Specific settings
+    :api_url: 'http://api.foreman'
+    :api_version: 2
+    :consumer_key: 'key'
+    :consumer_secret: 'secret'
+    :timeout: 2
+    :api_user: 'admin'
+    # An array of Foreman resources managed by Foregit
+    :resources: :architectures
+    # Git repository path
+    :repo_path: '/home/user/foregit/'
+    # The Git branch which should sync with Foreman
+    :repo_branch: 'master'
+    # A list of fields which should be removed from a Foreman resource before/after
+    # are synced within the instance and repo.
+    :ignored_foreman_fields: ['created_at', 'updated_at']
