@@ -1,10 +1,9 @@
 module Foregit
 
-  require 'file_manager'
-  require 'git_manager'
-  require 'talk_commands'
+  require 'hammer_cli_foreman/file_manager'
+  require 'hammer_cli_foreman/git_manager'
+  require 'hammer_cli_foreman/talk_commands'
 
-  require 'foreman/api'
-  require 'hammer_cli_foreman'
+  require 'hammer_cli_foreman/foreman/api'
 
 end
