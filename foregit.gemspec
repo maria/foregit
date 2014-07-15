@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.executables  = ['foregit-talk']
   s.require_paths    = ['lib']
 
+  s.add_dependency 'hammer_cli', '~> 0.1.1', '>= 0.1.1'
   s.add_dependency 'apipie-bindings', '~> 0.0.8', '>= 0.0.8'
   s.add_dependency 'commander', '~> 4.2.0', '>= 4.2.0'
   s.add_dependency 'git', '~>1.2.6', '>=1.2.6'

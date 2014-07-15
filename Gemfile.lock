@@ -14,17 +14,39 @@ GEM
       oauth
       rest-client (>= 1.6.1)
     awesome_print (1.2.0)
+    clamp (0.6.3)
     commander (4.2.0)
       highline (~> 1.6.11)
     diff-lcs (1.2.5)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
+    fast_gettext (0.8.1)
+    fastercsv (1.5.5)
     git (1.2.7)
+    hammer_cli (0.1.1)
+      apipie-bindings (>= 0.0.8)
+      awesome_print
+      clamp
+      fast_gettext
+      fastercsv
+      highline
+      json
+      locale (<= 2.0.9)
+      logging
+      mime-types (~> 1.0)
+      rest-client
+      table_print
     highline (1.6.21)
     i18n (0.6.9)
     json (1.8.1)
+    little-plugger (1.1.3)
+    locale (2.0.9)
+    logging (1.8.2)
+      little-plugger (>= 1.1.3)
+      multi_json (>= 1.8.4)
     mime-types (1.25.1)
     minitest (5.3.4)
+    multi_json (1.10.1)
     oauth (0.4.7)
     rake (10.3.2)
     rest-client (1.6.7)
@@ -41,6 +63,7 @@ GEM
     rspec-mocks (3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.0)
+    table_print (1.5.2)
     thread_safe (0.3.4)
     tzinfo (1.2.0)
       thread_safe (~> 0.1)
@@ -53,5 +76,6 @@ DEPENDENCIES
   commander
   factory_girl (= 4.4.0)
   git
+  hammer_cli
   rake
   rspec
