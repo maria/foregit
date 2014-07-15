@@ -3,11 +3,11 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
 
-  s.name          = "foregit"
+  s.name          = 'hammer_cli_foregit'
   s.version       = '0.1'
   s.platform      = Gem::Platform::RUBY
   s.authors       = ['Maria Nita']
-  s.license       = "GPL-3"
+  s.license       = 'GPL-3'
 
   s.summary       = %q{An interface between Foreman and Git}
   s.description   =  %q{An interface to configure Foreman through a Git repository}
