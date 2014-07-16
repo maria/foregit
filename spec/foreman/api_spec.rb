@@ -1,8 +1,7 @@
 # Test the API binding used to download Foreman instance
 require 'json'
 
-require 'foregit'
-require 'foreman/api'
+require 'hammer_cli_foreman/foreman/api'
 require 'spec_helper'
 
 describe Foreman::Api do
