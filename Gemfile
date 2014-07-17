@@ -4,6 +4,7 @@ gem 'rake'
 gem 'apipie-bindings'
 gem 'commander'
 gem 'git'
+gem 'hammer_cli'
 
 group :test do
   gem 'rspec'
