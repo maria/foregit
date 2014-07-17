@@ -5,5 +5,4 @@ module Foregit
   require 'talk_commands'
 
   require 'foreman/api'
-
 end
