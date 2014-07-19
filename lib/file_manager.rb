@@ -7,8 +7,9 @@ class FileManager
 
   attr_reader :repo_path
 
-  def initialize(repo_path=nil)
-    @repo_path = repo_path || Foregit::SETTINGS.repo_path or raise ArgumentError, 'No path for the repository was given!'
+  def initialize(settings)
+    @settings = settings
+    @repo_path = settings[:repo_path] or raise ArgumentError, 'No path for the repository was given!'
   end
 
   def repo_path
@@ -78,7 +79,7 @@ class FileManager
   def remove_extra_content(content)
     # Remove fields which should be ignored, most of them are set when the
     # element is updated in the Foreman instance.
-    Foregit::SETTINGS.ignored_foreman_fields.each do |field|
+    @settings[:ignored_foreman_fields].each do |field|
       content.delete(field)
     end
     return content
