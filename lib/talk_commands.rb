@@ -16,7 +16,7 @@ class TalkCommands
   def initialize(settings)
     @binding = Foreman::Api.new(settings)
     @file_manager = FileManager.new(settings)
-    @git_manager = GitManager.new(settings)
+    @git_manager = GitManager.new(@file_manager, settings)
   end
 
   # Download resources from Foreman and save them as files in the Git repo

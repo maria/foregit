@@ -72,6 +72,10 @@ class FileManager
     return file_path
   end
 
+  def can_read_directory(directory)
+    Dir.exists?(directory) && Dir.writeable?(directory)
+  end
+
   def can_read_file?(file)
     File.exists?(file) && File.readable?(file)
   end
