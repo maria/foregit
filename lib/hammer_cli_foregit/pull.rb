@@ -10,7 +10,7 @@ module HammerCLIForegit
       :format => HammerCLI::Options::Normalizers::List.new
 
     def execute
-      talk = TalkCommands.new
+      talk = TalkCommands.new(HammerCLI::Settings.get('foregit'))
       talk.pull option_resources
       HammerCLI::EX_OK
     end

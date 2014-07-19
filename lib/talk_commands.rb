@@ -13,8 +13,8 @@ class TalkCommands
 
   attr_reader :binding
 
-  def initialize
-    @binding = Foreman::Api.new
+  def initialize(settings)
+    @binding = Foreman::Api.new(settings)
   end
 
   # Download resources from Foreman and save them as files in the Git repo
