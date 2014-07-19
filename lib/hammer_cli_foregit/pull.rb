@@ -11,7 +11,9 @@ module HammerCLIForegit
 
     def execute
       talk = TalkCommands.new(HammerCLI::Settings.get('foregit'))
+      puts "Syncing Foreman #{option_resources}..."
       talk.pull option_resources
+      puts 'Done!'
       HammerCLI::EX_OK
     end
 
