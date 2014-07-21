@@ -13,9 +13,8 @@ class GitManager
 
       # Create directory and repository if it's not on the localhost
       init_project(settings) if !Dir.exists?(@repo_path)
-      # Init repo and config git.
+
       @git = Git.open(@repo_path)
-      config_git(settings)
       # Check we are on the correct branch
       if @git.branch.name != @repo_branch
         puts "Checking from #{@git.branch.name} to #{repo_branch}..."
@@ -27,10 +26,11 @@ class GitManager
     # Else create a local repository, without a remote.
     def init_project(settings)
       if settings.has_key?(:repo_remote)
-        Git.clone(settings[:repo_remote], :path => @repo_path)
+        @git = Git.clone(settings[:repo_remote], :path => @repo_path)
       else
-        create_new_repo(settings)
+        @git = create_new_repo(settings)
       end
+      config_git(settings)
     end
 
     def create_new_repo(settings)
@@ -38,6 +38,7 @@ class GitManager
       FileUtils.mkdir(@repo_path) unless Dir.exists?(@repo_path)
       git = Git.init(@repo_path)
       puts 'Done!'
+      return git
     end
 
     def config_git(settings)
