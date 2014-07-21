@@ -1,5 +1,6 @@
 require 'hammer_cli'
 
+require 'git_manager'
 require 'talk_commands'
 
 module HammerCLIForegit
@@ -10,9 +11,12 @@ module HammerCLIForegit
       :format => HammerCLI::Options::Normalizers::List.new
 
     def execute
-      talk = TalkCommands.new(HammerCLI::Settings.get('foregit'))
+      settings = HammerCLI::Settings.get('foregit')
+      git = GitManager.new (settings)
+      talk = TalkCommands.new(settings)
       puts "Syncing Foreman #{option_resources}..."
       talk.pull option_resources
+      git.commit("Sync #{option_resources || 'all'} resources")
       puts 'Done!'
       HammerCLI::EX_OK
     end
@@ -21,4 +25,6 @@ module HammerCLIForegit
 
 end
 
-HammerCLI::MainCommand.subcommand 'pull', 'Download the Foreman resources and save them as files in the Git repo', HammerCLIForegit::Pull
+HammerCLI::MainCommand.subcommand 'pull',
+  'Download the Foreman resources and save them as files in the Git repo',
+  HammerCLIForegit::Pull

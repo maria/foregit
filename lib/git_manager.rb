@@ -7,12 +7,12 @@ class GitManager
 
     # Ensure the repository exists on the localhost. Either clone or create it.
     # Configure Git settings and ensure the workspace is on the expected branch.
-    def initialize(file_manager, settings)
+    def initialize(settings)
       @repo_path = settings[:repo_path]
       @repo_branch = settings[:repo_branch]
 
       # Create directory and repository if it's not on the localhost
-      init_project(settings) if !file_manager.can_read_directory(@repo_path)
+      init_project(settings) if !Dir.exists?(@repo_path)
       # Init repo and config git.
       @git = Git.open(@repo_path)
       config_git(settings)
