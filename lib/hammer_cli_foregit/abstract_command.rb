@@ -9,13 +9,13 @@ module HammerCLIForegit
 
   class AbstractCommand < HammerCLI::AbstractCommand
 
-    def initialize
-      super
+    def execute
       settings = HammerCLI::Settings.get('foregit')
       @git_manager = GitManager.new (settings)
       @talk = TalkCommands.new(settings)
       @file_manager = FileManager.new(settings)
-      @binding = Api.new(settings)
+      @binding = Foreman::Api.new(settings)
     end
+
   end
 end

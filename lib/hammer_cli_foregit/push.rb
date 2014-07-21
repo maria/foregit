@@ -5,6 +5,7 @@ module HammerCLIForegit
   class Push < HammerCLIForegit::AbstractCommand
 
     def execute
+      super
       puts 'Upload changes to Foreman...'
       changes = @git_manager.get_diff
       changes.each do |file, stats|

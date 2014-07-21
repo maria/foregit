@@ -8,6 +8,7 @@ module HammerCLIForegit
       :format => HammerCLI::Options::Normalizers::List.new
 
     def execute
+      super
       puts "Syncing Foreman #{option_resources}..."
       @talk.pull option_resources
       @git_manager.commit("Sync #{option_resources || 'all'} resources")
