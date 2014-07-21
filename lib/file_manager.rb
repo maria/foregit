@@ -73,7 +73,7 @@ class FileManager
   end
 
   def can_read_directory(directory)
-    Dir.exists?(directory) && Dir.writeable?(directory)
+    Dir.exists?(directory)
   end
 
   def can_read_file?(file)
