@@ -7,8 +7,7 @@ module HammerCLIForegit
     def execute
       super
       puts 'Upload changes to Foreman...'
-      changes = @git_manager.get_diff
-      changes.each do |file, stats|
+      @file_manager.get_repo_json_files.each do |file|
         data = @file_manager.load_file_as_json(file)
         @binding.call_action(file, :create, data)
       end
