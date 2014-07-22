@@ -48,11 +48,15 @@ class FileManager
     return file_path
   end
 
+  def get_repo_json_files
+    Dir.entries(@repo_path).reject! {|file| !file.end_with? '.json'}
+  end
+
   def load_file_as_json(file)
     # Ensure file exists and that we can read it.
-    if not can_read_file?(file)
-      raise ArgumentError, "The file#{file} doesn't exists!"
-    end
+    raise ArgumentError, "The file #{file} doesn't exists!" if !can_read_file?(file)
+    raise TypeError, "The file #{file} doesn't have the correct extension!" if !file.end_with? '.json'
+
     # Get file content.
     file_path = find_file(file)
     file_content = File.open(file_path, 'r').read
