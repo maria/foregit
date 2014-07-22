@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary       = %q{An interface between Foreman and Git}
   s.description   =  %q{An interface to configure Foreman through a Git repository}
 
-  s.files = Dir['{lib,spec,bin,doc,config}/**/*', 'LICENSE', 'README*', 'Rakefile']
+  s.files = Dir['{lib,spec,doc,config}/**/*', 'LICENSE', 'README*', 'Rakefile']
   s.require_paths    = ['lib']
 
   s.add_dependency 'apipie-bindings', '~> 0.0.8', '>= 0.0.8'
