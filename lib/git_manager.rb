@@ -28,12 +28,12 @@ class GitManager
       if settings.has_key?(:repo_remote)
         @git = Git.clone(settings[:repo_remote], :path => @repo_path)
       else
-        @git = create_new_repo(settings)
+        @git = create_project(settings)
       end
-      config_git(settings)
+      config(settings)
     end
 
-    def create_new_repo(settings)
+    def create_project(settings)
       puts 'Create new repository #{@repo_path}...'
       FileUtils.mkdir(@repo_path) unless Dir.exists?(@repo_path)
       git = Git.init(@repo_path)
@@ -41,7 +41,7 @@ class GitManager
       return git
     end
 
-    def config_git(settings)
+    def config(settings)
       puts 'Configure Git...'
       @git.config('user.name', settings[:git_username]) if settings.has_key? :git_username
       @git.config('user.email', settings[:git_useremail]) if settings.has_key? :git_useremail
@@ -53,10 +53,9 @@ class GitManager
       puts "Commited with message: #{message}."
     end
 
-    def get_diff
+    def get_remote_diff
       # get last local commit
       last_commit_sha = @git.log(1)[0].sha
-      # Get upstream changes
       @git.pull
       # Get differences between commit
       new_last_commit_sha = @git.log(1)[0].sha
