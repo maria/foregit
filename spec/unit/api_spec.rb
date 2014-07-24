@@ -8,11 +8,12 @@ require 'spec_helper'
 describe Foreman::Api do
 
   before (:each) do
-    # Ensure we set in the settings file the expected resource
-    Foregit::SETTINGS.resources = :architectures
+    # Create settings and ensure the resources is set to :architectures
+    @settings = attributes_for(:settings)
+    @settings[:resources] = :architectures
 
     # Mock Foreman API response
-    @binding = Foreman::Api.new
+    @binding = Foreman::Api.new @settings
     allow(@binding.api).to receive(:call).and_return(build(:architectures).to_json)
 
   end
@@ -38,7 +39,9 @@ describe Foreman::Api do
     context 'download resources raises error when no resource is set' do
       it 'should raise ArgumentError' do
         # Ensure no resources are set to be downloaded from Foreman
-        Foregit::SETTINGS.resources = nil
+        @settings.delete(:resources)
+        @binding = Foreman::Api.new @settings
+        allow(@binding.api).to receive(:call).and_return(build(:architectures).to_json)
         expect{@binding.download_resources}.to raise_error(ArgumentError)
       end
     end
