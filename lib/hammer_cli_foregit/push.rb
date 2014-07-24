@@ -7,6 +7,7 @@ module HammerCLIForegit
     def execute
       super
       puts 'Upload changes to Foreman...'
+      @git_manager.commit("Commit existent changes before push.")
       @file_manager.get_repo_json_files.each do |file|
         data = @file_manager.load_file_as_json(file)
         @binding.call_action(file, :create, data)
