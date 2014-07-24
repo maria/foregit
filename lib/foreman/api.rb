@@ -46,7 +46,7 @@ class Foreman
     end
 
     def upload_resources(resources)
-      resources.each do |resource_name, resource_data|
+      resources.each do |name, data|
         call_action(name, :create, data)
       end
     end
