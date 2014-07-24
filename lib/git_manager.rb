@@ -49,7 +49,12 @@ class GitManager
 
     def commit(message='Sync')
       @git.add
-      @git.commit(message)
+      begin
+        @git.commit(message)
+      rescue StandardError
+        puts 'Nothing to commit.'
+        return
+      end
       puts "Commited with message: #{message}."
     end
 
