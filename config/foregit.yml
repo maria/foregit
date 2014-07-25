@@ -17,4 +17,4 @@ git_username: 'myusername'
 git_useremail: 'myusername@mail.org'
 # A list of fields which should be removed from a Foreman resource before/after
 # are synced within the instance and repo.
-ignored_foreman_fields: ['created_at', 'updated_at']
+ignored_foreman_fields: ['created_at', 'updated_at', 'sp_name', 'sp_subnet_id']
