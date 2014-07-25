@@ -3,7 +3,7 @@ require 'foregit'
 require 'talk_commands'
 
 
-describe TalkCommands do
+describe Foregit::TalkCommands do
 
   before(:all) do
     FileUtils.mkdir(File.expand_path('../data', __FILE__))

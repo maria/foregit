@@ -9,17 +9,18 @@ class Foreman
 
     attr_reader :api
 
-    def initialize
+    def initialize(settings)
+      @settings = settings
       @api ||= ApipieBindings::API.new({
-        :uri => Foregit::SETTINGS.api_url,
-        :api_version => Foregit::SETTINGS.api_version,
+        :uri => @settings[:api_url],
+        :api_version => @settings[:api_version],
         :oauth => {
-          :consumer_key    => Foregit::SETTINGS.consumer_key,
-          :consumer_secret => Foregit::SETTINGS.consumer_secret
+          :consumer_key    => @settings[:consumer_key],
+          :consumer_secret => @settings[:consumer_secret]
         },
-        :timeout => Foregit::SETTINGS.timeout,
+        :timeout => @settings[:timeout],
         :headers => {
-          :foreman_user => Foregit::SETTINGS.api_user
+          :foreman_user => @settings[:api_user]
         }})
     end
 
@@ -69,8 +70,8 @@ class Foreman
      def get_resources_to_download(resources)
 
       if resources.nil?
-        if !Foregit::SETTINGS.resources.nil?
-          resources = Foregit::SETTINGS.resources
+        if !@settings[:resources].nil?
+          resources = @settings[:resources]
         else
           raise ArgumentError, 'No list of resources to download.'
         end

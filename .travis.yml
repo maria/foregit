@@ -7,5 +7,3 @@ rvm:
 branches:
     only:
         - master
-
-before_script: cp config/settings.yaml.example config/settings.yaml
