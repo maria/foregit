@@ -3,94 +3,97 @@ require 'json'
 
 require 'foregit'
 
-class FileManager
+module Foregit
 
-  attr_reader :repo_path
+  class FileManager
 
-  def initialize(settings)
-    @settings = settings
-    @repo_path = settings[:repo_path] or raise ArgumentError, 'No path for the repository was given!'
-  end
+    attr_reader :repo_path
 
-  def repo_path
-    @repo_path
-  end
+    def initialize(settings)
+      @settings = settings
+      @repo_path = settings[:repo_path] or raise ArgumentError, 'No path for the repository was given!'
+    end
 
-  def find_file(file)
-    relative_path = File.expand_path(file)
+    def repo_path
+      @repo_path
+    end
 
-    if can_read_file?(relative_path) && File.fnmatch?(@repo_path + '*', relative_path)
-      return relative_path
+    def find_file(file)
+      relative_path = File.expand_path(file)
 
-    else
-      full_path = File.join(@repo_path, file)
-      if can_read_file?(full_path)
-        return full_path
+      if can_read_file?(relative_path) && File.fnmatch?(@repo_path + '*', relative_path)
+        return relative_path
+
+      else
+        full_path = File.join(@repo_path, file)
+        if can_read_file?(full_path)
+          return full_path
+        end
       end
     end
-  end
 
-  def dump_object_as_file(resource, file=nil)
-    if file.nil?
-      # If we don't have a file, it means it's a new configuration and a new
-      # file has to be created beforehand.
-      dir_path = ensure_directory(resource[:type])
-      file_path = ensure_file(dir_path, resource[:name])
-    else
+    def dump_object_as_file(resource, file=nil)
+      if file.nil?
+        # If we don't have a file, it means it's a new configuration and a new
+        # file has to be created beforehand.
+        dir_path = ensure_directory(resource[:type])
+        file_path = ensure_file(dir_path, resource[:name])
+      else
+        file_path = find_file(file)
+      end
+
+      File.open(file_path, 'w') do |file|
+        content = remove_extra_content(resource[:content])
+        file.write(JSON.dump(content))
+      end
+
+      return file_path
+    end
+
+
+    def get_repo_directories
+      Dir.entries(@repo_path).reject! {|dir| dir.start_with? '.'}
+    end
+
+    def get_dir_json_files(dir)
+      Dir.entries(File.join(@repo_path, dir)).reject! {|file| !file.end_with? '.json'}
+    end
+
+    def load_file_as_json(file)
+      # Get file content.
       file_path = find_file(file)
+
+      file_content = File.open(file_path, 'r').read
+      return JSON.load(remove_extra_content(file_content))
     end
 
-    File.open(file_path, 'w') do |file|
-      content = remove_extra_content(resource[:content])
-      file.write(JSON.dump(content))
+    def ensure_directory(directory)
+      dir_path = File.join(@repo_path, directory)
+      FileUtils.mkdir(dir_path) unless Dir.exists?(dir_path)
+      return dir_path
     end
 
-    return file_path
-  end
-
-  def get_repo_directories
-    Dir.entries(@repo_path).reject! {|dir| dir.start_with? '.'}
-  end
-
-  def get_dir_json_files(dir)
-    Dir.entries(File.join(@repo_path, dir)).reject! {|file| !file.end_with? '.json'}
-  end
-
-  def load_file_as_json(file)
-    # Get file content.
-    file_path = find_file(file)
-
-    file_content = File.open(file_path, 'r').read
-    return JSON.load(remove_extra_content(file_content))
-  end
-
-  def ensure_directory(directory)
-    dir_path = File.join(@repo_path, directory)
-    FileUtils.mkdir(dir_path) unless Dir.exists?(dir_path)
-    return dir_path
-  end
-
-  def ensure_file(directory, file, extension='.json')
-    file_path = File.join(directory, file + extension)
-    FileUtils.touch(file_path) unless File.exists?(file_path)
-    return file_path
-  end
-
-  def can_read_directory(directory)
-    Dir.exists?(directory)
-  end
-
-  def can_read_file?(file)
-    File.exists?(file) && File.readable?(file)
-  end
-
-  def remove_extra_content(content)
-    # Remove fields which should be ignored, most of them are set when the
-    # element is updated in the Foreman instance.
-    @settings[:ignored_foreman_fields].each do |field|
-      content.delete(field)
+    def ensure_file(directory, file, extension='.json')
+      file_path = File.join(directory, file + extension)
+      FileUtils.touch(file_path) unless File.exists?(file_path)
+      return file_path
     end
-    return content
-  end
 
+    def can_read_directory(directory)
+      Dir.exists?(directory)
+    end
+
+    def can_read_file?(file)
+      File.exists?(file) && File.readable?(file)
+    end
+
+    def remove_extra_content(content)
+      # Remove fields which should be ignored, most of them are set when the
+      # element is updated in the Foreman instance.
+      @settings[:ignored_foreman_fields].each do |field|
+        content.delete(field)
+      end
+      return content
+    end
+  end
 end

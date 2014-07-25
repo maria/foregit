@@ -5,7 +5,7 @@ require 'foregit'
 require 'file_manager'
 
 
-describe FileManager do
+describe Foregit::FileManager do
 
   before(:all) do
     # Define test directory path
@@ -16,7 +16,7 @@ describe FileManager do
     # Create directory to store Foregit data
     FileUtils.mkdir(@repo_path)
     # Create FileManager object
-    @manager = FileManager.new @settings
+    @manager = Foregit::FileManager.new @settings
   end
 
   after(:all) do
@@ -32,7 +32,7 @@ describe FileManager do
     it 'should raise an error when no repo_path is set' do
       settings = @settings
       settings.delete(:repo_path)
-      expect{ FileManager.new settings}.to raise_error(ArgumentError)
+      expect{ Foregit::FileManager.new settings}.to raise_error(ArgumentError)
     end
 
   end
@@ -44,8 +44,8 @@ describe FileManager do
         file = '/test'
         file_path = File.join(@repo_path, file)
 
-        expect(FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
-        expect(FileManager::File).to receive(:fnmatch?).with(@repo_path + '*', file_path).and_return(true)
+        expect(Foregit::FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
+        expect(Foregit::FileManager::File).to receive(:fnmatch?).with(@repo_path + '*', file_path).and_return(true)
         expect(@manager).to receive(:can_read_file?).with(file_path).and_return(true)
 
         expect(@manager.find_file file).to match(file_path)
@@ -55,8 +55,8 @@ describe FileManager do
         file = '../test'
         file_path = File.join(@repo_path, file)
 
-        expect(FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
-        expect(FileManager::File).to receive(:fnmatch?).with(@repo_path + '*', file_path).and_return(true)
+        expect(Foregit::FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
+        expect(Foregit::FileManager::File).to receive(:fnmatch?).with(@repo_path + '*', file_path).and_return(true)
         expect(@manager).to receive(:can_read_file?).with(file_path).and_return(true)
 
         expect(@manager.find_file file).to match(file_path)
@@ -69,8 +69,8 @@ describe FileManager do
         file = 'test'
         file_path = File.join(@repo_path, file)
 
-        expect(FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
-        expect(FileManager::File).to receive(:join).with(@repo_path, file).and_return(file_path)
+        expect(Foregit::FileManager::File).to receive(:expand_path).with(file).and_return(file_path)
+        expect(Foregit::FileManager::File).to receive(:join).with(@repo_path, file).and_return(file_path)
         expect(@manager).to receive(:can_read_file?).twice.with(file_path).and_return(false)
 
         expect(@manager.find_file file).to be(nil)
