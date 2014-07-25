@@ -10,8 +10,11 @@ module HammerCLIForegit
       @git_manager.commit("Commit existent changes before push.")
 
       @file_manager.get_repo_directories.each do |dir|
-        @file_manager.get_dir_json_files(dir).each do |file|
+        dir_files = @file_manager.get_dir_json_files(dir)
+        break if dir_files.empty?
 
+        dir_files.each do |file|
+          puts "Load #{File.join(dir, file)} as data"
           data = @file_manager.load_file_as_json(File.join(dir, file))
           @binding.call_action(dir, :create, data)
 

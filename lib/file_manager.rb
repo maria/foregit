@@ -56,7 +56,7 @@ module Foregit
     end
 
     def get_dir_json_files(dir)
-      Dir.entries(File.join(@repo_path, dir)).reject! {|file| !file.end_with? '.json'}
+      Dir.entries(File.join(@repo_path, dir)).reject! {|file| !file.end_with? '.json' or file.start_with? '.'}
     end
 
     def load_file_as_json(file)
