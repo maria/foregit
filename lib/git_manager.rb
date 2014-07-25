@@ -3,7 +3,9 @@ require 'git'
 
 require 'foregit'
 
-class GitManager
+module Foregit
+
+  class GitManager
 
     # Ensure the repository exists on the localhost. Either clone or create it.
     # Configure Git settings and ensure the workspace is on the expected branch.
@@ -66,5 +68,5 @@ class GitManager
       end
       commits_diff.stats[:files]
     end
-
+  end
 end
