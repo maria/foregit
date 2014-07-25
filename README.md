@@ -10,6 +10,8 @@ The idea is to have a tooling, that would turn the Foreman instance into a git r
 ### How
 Effectively, you would have a git repository representing the whole infrastructure. Cloning a host would copying a file, changing a parameter would mean just editing it's representation. One could even manage the whole infrastructure with Puppet.
 
+Read the [Foregit documentation](https://github.com/marianitadn/foregit/blob/master/doc/foregit.md) for more details.
+
 ### Others
 
 [Chef](http://docs.opscode.com/) has a similar tool called [Knife](http://docs.opscode.com/knife.html).
