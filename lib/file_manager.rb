@@ -6,16 +6,11 @@ require 'foregit'
 module Foregit
 
   class FileManager
-
     attr_reader :repo_path
 
     def initialize(settings)
       @settings = settings
       @repo_path = settings[:repo_path] or raise ArgumentError, 'No path for the repository was given!'
-    end
-
-    def repo_path
-      @repo_path
     end
 
     def find_file(file)
