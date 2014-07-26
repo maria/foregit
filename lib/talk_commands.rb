@@ -15,10 +15,10 @@ module Foregit
 
     attr_reader :binding
 
-    def initialize(settings)
-      @binding = Foreman::Api.new(settings)
-      @file_manager = FileManager.new(settings)
-      @git_manager = GitManager.new(settings)
+    def initialize(settings, binding=nil, file_manager=nil, git_manager=nil)
+      @binding = binding || Foreman::Api.new(settings)
+      @file_manager = file_manager || FileManager.new(settings)
+      @git_manager = git_manager || GitManager.new(settings)
     end
 
     # Download resources from Foreman and save them as files in the Git repo
@@ -41,11 +41,20 @@ module Foregit
 
     # Get all the files from the Git repo and create/update the Foreman resources
     def push
-      changes = @git_manager.get_diff
-      changes.each do |file, stats|
-        data = @file_manager.load_file_as_json(file)
-        @binding.call_action(file, :create, data)
+      @git_manager.commit("Commit existent changes before push.")
+
+      @file_manager.get_repo_directories.each do |dir|
+        dir_files = @file_manager.get_dir_json_files(dir)
+        load_files_and_create_resources(dir, dir_files) if !dir_files.empty?
       end
     end
+
+    def load_files_and_create_resources(resource_type, resources)
+      resources.each do |resource|
+        data = @file_manager.load_file_as_json(File.join(resource_type, resource))
+        @binding.call_action(resource_type, :create, data)
+      end
+    end
+
   end
 end

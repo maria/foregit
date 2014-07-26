@@ -6,16 +6,11 @@ require 'foregit'
 module Foregit
 
   class FileManager
-
     attr_reader :repo_path
 
     def initialize(settings)
       @settings = settings
       @repo_path = settings[:repo_path] or raise ArgumentError, 'No path for the repository was given!'
-    end
-
-    def repo_path
-      @repo_path
     end
 
     def find_file(file)
@@ -50,19 +45,20 @@ module Foregit
       return file_path
     end
 
-    def get_repo_json_files
-      Dir.entries(@repo_path).reject! {|file| !file.end_with? '.json'}
+
+    def get_repo_directories
+      Dir.entries(@repo_path).reject! {|dir| dir.start_with? '.'}
+    end
+
+    def get_dir_json_files(dir)
+      Dir.entries(File.join(@repo_path, dir)).reject! {|file| !file.end_with? '.json' or file.start_with? '.'}
     end
 
     def load_file_as_json(file)
-      # Ensure file exists and that we can read it.
-      raise ArgumentError, "The file #{file} doesn't exists!" if !can_read_file?(file)
-      raise TypeError, "The file #{file} doesn't have the correct extension!" if !file.end_with? '.json'
-
       # Get file content.
       file_path = find_file(file)
-      file_content = File.open(file_path, 'r').read
 
+      file_content = File.open(file_path, 'r').read
       return JSON.load(remove_extra_content(file_content))
     end
 

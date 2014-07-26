@@ -12,9 +12,9 @@ module HammerCLIForegit
     def execute
       @settings = HammerCLI::Settings.get('foregit')
       @git_manager = Foregit::GitManager.new (@settings)
-      @talk = Foregit::TalkCommands.new(@settings)
       @file_manager = Foregit::FileManager.new(@settings)
       @binding = Foreman::Api.new(@settings)
+      @talk = Foregit::TalkCommands.new(@settings, @binding, @file_manager, @git_manager)
     end
 
   end
