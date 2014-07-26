@@ -45,16 +45,15 @@ module Foregit
 
       @file_manager.get_repo_directories.each do |dir|
         dir_files = @file_manager.get_dir_json_files(dir)
-        break if dir_files.empty?
-
-        dir_files.each do |file|
-          puts "Load #{File.join(dir, file)} as data"
-          data = @file_manager.load_file_as_json(File.join(dir, file))
-          puts "Create resource #{dir} with data #{data}"
-          @binding.call_action(dir, :create, data)
-        end
+        load_files_and_create_resources(dir, dir_files) if !dir_files.empty?
       end
+    end
 
+    def load_files_and_create_resources(resource_type, resources)
+      resources.each do |resource|
+        data = @file_manager.load_file_as_json(File.join(resource_type, resource))
+        @binding.call_action(resource_type, :create, data)
+      end
     end
 
   end
