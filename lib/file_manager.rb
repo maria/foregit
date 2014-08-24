@@ -14,16 +14,10 @@ module Foregit
     end
 
     def find_file(file)
-      relative_path = File.expand_path(file)
-
-      if can_read_file?(relative_path) && File.fnmatch?(@repo_path + '*', relative_path)
-        return relative_path
-
+      if file.start_with? @repo_path
+        return file
       else
-        full_path = File.join(@repo_path, file)
-        if can_read_file?(full_path)
-          return full_path
-        end
+        return File.join(@repo_path, file)
       end
     end
 
