@@ -42,17 +42,29 @@ module Foregit
     # Get all the files from the Git repo and create/update the Foreman resources
     def push
       @git_manager.commit("Commit existent changes before push.")
+      tag = Time.now.to_i.to_s
+      @git_manager.git.add_tag(tag)
+      puts("Created Git tag #{tag} for repo.")
 
-      @file_manager.get_repo_directories.each do |dir|
-        dir_files = @file_manager.get_dir_json_files(dir)
-        load_files_and_create_resources(dir, dir_files) if !dir_files.empty?
+      changes = @git_manager.get_status(tag)
+
+      changes.each do |change|
+        data = @file_manager.load_file_as_json(change[:file])
+        resource_type = change[:file].split('/')[0]
+        resource_action = get_action_based_on_change(change[:type])
+        puts("#{resource_action} #{resource_type} with #{data}...")
+        @binding.call_action(resource_type, resource_action, data)
       end
     end
 
-    def load_files_and_create_resources(resource_type, resources)
-      resources.each do |resource|
-        data = @file_manager.load_file_as_json(File.join(resource_type, resource))
-        @binding.call_action(resource_type, :create, data)
+    private
+    def get_action_based_on_change(type)
+      if type == 'D'
+        return :delete
+      elsif type == 'A'
+        return :create
+      elsif type == 'M'
+        return :update
       end
     end
 
