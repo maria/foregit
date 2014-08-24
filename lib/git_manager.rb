@@ -7,6 +7,8 @@ module Foregit
 
   class GitManager
 
+    attr_reader :git
+
     # Ensure the repository exists on the localhost. Either clone or create it.
     # Configure Git settings and ensure the workspace is on the expected branch.
     def initialize(settings)
@@ -73,5 +75,22 @@ module Foregit
       end
       commits_diff.stats[:files]
     end
+
+    def get_status(tag)
+      system("cd #{@repo_path} && git diff --name-status #{tag}^ HEAD > changes")
+      changes = clean(File.open("#{@repo_path}/changes").readlines)
+      return changes
+    end
+
+    private
+
+    def clean(git_statuses)
+      changes = []
+      git_statuses.each do |git_status|
+        changes << {:type => git_status.split[0], :file => git_status.split[1]}
+      end
+      return changes
+    end
+
   end
 end
