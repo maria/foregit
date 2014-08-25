@@ -48,11 +48,18 @@ module Foregit
 
       changes = @git_manager.get_status(tag)
 
+      if changes.empty?
+        puts "No changes to push to Foreman."
+        return
+      end
+
+      puts "Pushing changes to Foreman..."
       changes.each do |change|
         data = @file_manager.load_file_as_json(change[:file])
         resource_type = change[:file].split('/')[0]
         resource_action = get_action_based_on_change(change[:type])
-        puts("#{resource_action} #{resource_type} with #{data}...")
+
+        puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
         @binding.call_action(resource_type, resource_action, data)
       end
     end

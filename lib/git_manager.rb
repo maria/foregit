@@ -77,17 +77,18 @@ module Foregit
     end
 
     def get_status(tag)
-      system("cd #{@repo_path} && git diff --name-status #{tag}^ HEAD > changes")
-      changes = clean(File.open("#{@repo_path}/changes").readlines)
+      system("cd #{@repo_path} && git diff --name-status #{tag}^ HEAD > /tmp/changes")
+      changes = clean(File.open('/tmp/changes').readlines)
       return changes
     end
 
     private
 
-    def clean(git_statuses)
+    def clean(statuses)
       changes = []
-      git_statuses.each do |git_status|
-        changes << {:type => git_status.split[0], :file => git_status.split[1]}
+      statuses.each do |status|
+        next if status.strip.end_with? 'changes'
+        changes << {:type => status.split[0], :file => status.split[1]}
       end
       return changes
     end
