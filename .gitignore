@@ -8,6 +8,7 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+.vagrant/
 
 ## Specific to RubyMotion:
 .dat*
