@@ -7,11 +7,11 @@ sudo apt-get install -y curl
 curl -L https://get.rvm.io | bash -s stable
 source /home/vagrant/.rvm/scripts/rvm
 
-echo "Install ruby"
+echo "Install Ruby and Rails"
 rvm use --install 2.0.0-p576
 gem install rails -v 4.0.0 --no-ri --no-rdoc
 
-echo "Install Foreman"
+echo "Install Puppet and Foreman"
 sudo wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
 sudo dpkg -i puppetlabs-release-precise.deb
 

@@ -19,6 +19,6 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--cpus", 2]
   end
 
-
+  config.vm.provision "shell", path: "install.sh"
 
 end
