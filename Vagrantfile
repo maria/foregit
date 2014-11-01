@@ -11,6 +11,8 @@ Vagrant.configure("2") do |config|
 
   # Share code
   config.vm.synced_folder(".", "/home/vagrant/foregit")
+  config.vm.synced_folder("../foreman", "/home/vagrant/foreman")
+  config.vm.synced_folder("../hammer-cli-foreman", "/home/vagrant/hammer-cli-foreman")
 
   config.vm.provider "virtualbox" do |v|
 
