@@ -1,5 +1,5 @@
 :foregit:
-  :enable_modules: true
+  :enable_module: true
   :api_url: 'http://api.foreman'
   :api_version: 2
   :consumer_key: 'key'
