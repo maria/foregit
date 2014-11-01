@@ -21,7 +21,7 @@ module Foregit
       @git = Git.open(@repo_path)
       # Check we are on the correct branch
       if @git.branch.name != @repo_branch
-        puts "Checking from #{@git.branch.name} to #{repo_branch}..."
+        puts "Checking from #{@git.branch.name} to #{@repo_branch}..."
         @git.branch(@repo_branch).checkout
       end
     end
@@ -29,16 +29,16 @@ module Foregit
     # If a repository remote is defined, clone the repository.
     # Else create a local repository, without a remote.
     def init_project(settings)
-      if settings.has_key?(:repo_remote)
-        @git = Git.clone(settings[:repo_remote], :path => @repo_path)
+      if settings.has_key? :repo_remote
+        @git = Git.clone(settings[:repo_remote], @repo_path)
       else
-        @git = create_project(settings)
+        @git = create_project
       end
-      config(settings)
+        config(settings)
     end
 
-    def create_project(settings)
-      puts 'Create new repository #{@repo_path}...'
+    def create_project
+      puts 'Create local repository #{@repo_path}...'
       FileUtils.mkdir(@repo_path) unless Dir.exists?(@repo_path)
       git = Git.init(@repo_path)
       puts 'Done!'
@@ -49,6 +49,7 @@ module Foregit
       puts 'Configure Git...'
       @git.config('user.name', settings[:git_username]) if settings.has_key? :git_username
       @git.config('user.email', settings[:git_useremail]) if settings.has_key? :git_useremail
+      puts "Done."
     end
 
     def commit(message='Sync')
