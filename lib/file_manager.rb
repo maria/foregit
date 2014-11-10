@@ -40,7 +40,7 @@ module Foregit
 
       File.open(file_path, 'w') do |file|
         content = remove_extra_content(resource[:content])
-        file.write(JSON.dump(content))
+        file.write(JSON.pretty_generate(content))
       end
 
       return file_path

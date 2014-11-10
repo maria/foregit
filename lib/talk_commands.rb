@@ -59,8 +59,13 @@ module Foregit
         resource_type = change[:file].split('/')[0]
         resource_action = get_action_based_on_change(change[:type])
 
-        puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
-        @binding.call_action(resource_type, resource_action, data)
+        begin
+          puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
+          @binding.call_action(resource_type, resource_action, data)
+        rescue Exception => e
+          puts "Error while calling action: #{e}."
+          return
+        end
       end
     end
 
