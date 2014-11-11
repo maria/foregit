@@ -43,6 +43,14 @@ module Foregit
     def push(foreman_resources=nil)
       changes = @git_manager.get_status
 
+      if !foreman_resources.nil?
+        changes.each do |change|
+          if not (foreman_resources.any? { |foreman_resource| change.include?(foreman_resource) })
+            changes.delete(change)
+          end
+        end
+      end
+
       if changes.empty?
         puts "No changes to push to Foreman."
         return
