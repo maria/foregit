@@ -40,20 +40,15 @@ module Foregit
     end
 
     # Get all the files from the Git repo and create/update the Foreman resources
-    def push
-      @git_manager.commit("Commit existent changes before push.")
-      tag = Time.now.to_i.to_s
-      @git_manager.git.add_tag(tag)
-      puts("Created Git tag #{tag} for repo.")
-
-      changes = @git_manager.get_status(tag)
+    def push(foreman_resources=nil)
+      changes = @git_manager.get_status
 
       if changes.empty?
         puts "No changes to push to Foreman."
         return
       end
 
-      puts "Pushing changes to Foreman..."
+      puts "Syncing changes to Foreman..."
       changes.each do |change|
         data = @file_manager.load_file_as_json(change[:file])
         resource_type = change[:file].split('/')[0]
@@ -67,6 +62,13 @@ module Foregit
           return
         end
       end
+
+      puts "Changes were synced."
+      tag = Time.now.to_i.to_s
+      @git_manager.commit("Commit existent changes. Tag: #{tag}")
+      @git_manager.git.add_tag(tag)
+      puts("Tagged repository with #{tag}.")
+
     end
 
     private

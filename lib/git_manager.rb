@@ -77,8 +77,9 @@ module Foregit
       commits_diff.stats[:files]
     end
 
-    def get_status(tag)
-      system("cd #{@repo_path} && git diff --name-status #{tag}^ HEAD > /tmp/changes")
+    def get_status
+      @git.add
+      system("cd #{@repo_path} && git diff --name-status ^HEAD > /tmp/changes")
       changes = clean(File.open('/tmp/changes').readlines)
       return changes
     end

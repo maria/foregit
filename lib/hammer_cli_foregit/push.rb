@@ -4,10 +4,13 @@ module HammerCLIForegit
 
   class Push < HammerCLIForegit::AbstractCommand
 
+    option ['-r', '--resources'], 'RESOURCES', 'A list of Foreman API resources',
+      :format => HammerCLI::Options::Normalizers::List.new
+
     def execute
       super
-      puts 'Upload changes to Foreman...'
-      @talk.push
+      puts "Syncing from Git repository #{option_resources || 'all'} resources to Foreman..."
+      @talk.push option_resources
       puts 'Done!'
       HammerCLI::EX_OK
     end
@@ -15,5 +18,5 @@ module HammerCLIForegit
 end
 
 HammerCLI::MainCommand.subcommand 'push',
-  'Upload changes from the Git repository to the Foreman instance',
+  'Sync resources from Git repository to Foreman.',
   HammerCLIForegit::Push

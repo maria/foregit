@@ -4,12 +4,12 @@ module HammerCLIForegit
 
   class Pull < HammerCLIForegit::AbstractCommand
 
-    option ['-r', '--resources'], 'RESOURCES', 'A list of resources to pull and save',
+    option ['-r', '--resources'], 'RESOURCES', 'A list of Foreman API resources',
       :format => HammerCLI::Options::Normalizers::List.new
 
     def execute
       super
-      puts "Syncing Foreman #{option_resources}..."
+      puts "Sync from Foreman #{option_resources || 'all'} resources to Git repository..."
       @talk.pull option_resources
       @git_manager.commit("Sync #{option_resources || 'all'} resources")
       puts 'Done!'
@@ -19,5 +19,5 @@ module HammerCLIForegit
 end
 
 HammerCLI::MainCommand.subcommand 'pull',
-  'Download the Foreman resources and save them as files in the Git repo',
+  'Sync resources from Foreman to Git repository',
   HammerCLIForegit::Pull
