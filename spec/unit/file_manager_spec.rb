@@ -83,7 +83,7 @@ describe Foregit::FileManager do
 
     context 'dumping a valid JSON in an existent file' do
 
-      it 'the file should contain the resource content' do
+      it 'should contain the resource content' do
         file = 'test.json'
         file_path = File.join(@repo_path, file)
         File.open(file_path, 'w') {}
@@ -95,14 +95,14 @@ describe Foregit::FileManager do
         }
 
         @manager.dump_object_as_file(resource, file)
-        expect(File.read(file_path)).to match(resource[:content].to_json)
+        expect(JSON.parse(File.read(file_path))).to match(JSON.parse(resource[:content].to_json))
 
       end
     end
 
     context 'dumping a valid JSON in an inexistent file' do
 
-      it 'the file should contain the resource content after is created' do
+      it 'should contain the resource content after is created' do
         architectures = build(:architectures)
         resource = {
             :type => 'architectures',
@@ -112,8 +112,7 @@ describe Foregit::FileManager do
 
         @manager.dump_object_as_file(resource)
         file_path = @manager.find_file('architectures/' + architectures.name + '.json')
-
-        expect(File.read(file_path)).to match(resource[:content].to_json)
+        expect(JSON.parse(File.read(file_path))).to match(JSON.parse(resource[:content].to_json))
 
       end
     end
