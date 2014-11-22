@@ -45,12 +45,6 @@ class Foreman
       return foreman_resources
     end
 
-    def upload_resources(resources)
-      resources.each do |name, data|
-        call_action(name, :create, data)
-      end
-    end
-
     def call_action(name, action, data)
         name = name.to_sym if name.is_a? String
         action = action.to_sym if action.is_a? String

@@ -25,12 +25,11 @@ module Foregit
     def pull(foreman_resources=nil)
       resources = @binding.download_resources(foreman_resources)
 
-
       resources.each do |resource_type, resources_content|
         resources_content.each do |resource_content|
 
           resource = {:type => resource_type.to_s,
-                      :name => resource_content["name"].to_s,
+                      :name => "#{resource_content["id"].to_s}_#{resource_content["name"].to_s}",
                       :content => resource_content
                     }
 
@@ -57,16 +56,22 @@ module Foregit
       end
 
       puts "Syncing changes to Foreman..."
+      puts changes
       changes.each do |change|
-        data = @file_manager.load_file_as_json(change[:file])
-        resource_type = change[:file].split('/')[0]
         resource_action = get_action_based_on_change(change[:type])
+        resource_type = change[:file].split('/')[0]
+
+        if resource_action == :destroy
+          data = {:id => change[:file].split('/')[1].split("_")[0]}
+        else
+          data = @file_manager.load_file_as_json(change[:file])
+        end
 
         begin
           puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
           @binding.call_action(resource_type, resource_action, data)
         rescue Exception => e
-          puts "Error while calling action: #{e}."
+          puts "Error while calling action to Foreman: #{e}."
           return
         end
       end
@@ -82,7 +87,7 @@ module Foregit
     private
     def get_action_based_on_change(type)
       if type == 'D'
-        return :delete
+        return :destroy
       elsif type == 'A'
         return :create
       elsif type == 'M'
