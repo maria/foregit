@@ -4,6 +4,7 @@ sync command
     - download(settings[resources])
     - file manager
 =end
+require 'json'
 
 require 'file_manager'
 require 'git_manager'
@@ -82,6 +83,20 @@ module Foregit
       @git_manager.git.add_tag(tag)
       puts("Tagged repository with #{tag}.")
 
+    end
+
+    # Create a JSON respresentation in the Git repository for a new resource
+    # Check for a valid id for the given resource, create a file with the
+    # correct naming in the repository and dump attributes as JSON.
+    def add resource, attributes
+      if !attributes.is_a? Hash
+        begin
+          JSON.parse!(attributes)
+        rescue Exception => e
+          puts "Error while parsing attributes #{attributes} as valid JSON. Error: #{e}"
+          return
+        end
+      end
     end
 
     private
