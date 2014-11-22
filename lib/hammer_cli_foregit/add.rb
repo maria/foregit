@@ -5,9 +5,9 @@ module HammerCLIForegit
   class Add < HammerCLIForegit::AbstractCommand
 
     option ['-r', '--resource'], 'RESOURCE', 'The Foreman resource type',
-      :format => HammerCLI::Options::Normalizers::List.new
+      :format => String
     option ['-f', '--file'], 'FILE', 'A JSON or YAML file to define resource attributes',
-      :format => HammerCLI::Options::Normalizers::File.new
+      :format => HammerCLI::Options::Normalizers::JSONInput.new
     option ['-a', '--attributes'], 'ATTRIBUTES', 'A string of resource attributes described as key=value pairs, ex: -a "name=i382,hosts=[]"',
       :format => HammerCLI::Options::Normalizers::KeyValueList.new
 

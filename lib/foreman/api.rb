@@ -33,7 +33,6 @@ class Foreman
     # Returns a hash
     #   {:resource_name => array_of_resources_downloaded}
     def download_resources(resources=nil)
-
       resources = get_resources_to_download(resources)
       foreman_resources = Hash.new
 
@@ -47,7 +46,13 @@ class Foreman
 
     def call_action(name, action, data)
         name = name.to_sym if name.is_a? String
-        action = action.to_sym if action.is_a? String
+
+        if action.is_a? String
+          action = action.to_sym
+        elsif action.is_a? Array
+          action = action[0].to_sym
+        end
+
         @api.call(name, action, data)
     end
 
