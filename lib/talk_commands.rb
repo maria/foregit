@@ -25,10 +25,9 @@ module Foregit
     # Download resources from Foreman and save them as files in the Git repo
     def pull(foreman_resources=nil)
       resources = @binding.download_resources(foreman_resources)
-
       resources.each do |resource_type, resources_content|
         resources_content.each do |resource_content|
-          dump_resource_as_file(resource_type, resources_content)
+          dump_resource_as_file(resource_type, resource_content)
         end
       end
     end
@@ -100,7 +99,7 @@ module Foregit
 
     def dump_resource_as_file(resource_type, resource_content)
       parsed_resource = {:type => resource_type.to_s,
-                         :name => "#{resource_content["id"].to_s}_#{resource_content["name"].to_s}",
+                         :name => "#{resource_content['id']}_#{resource_content['name']}",
                          :content => resource_content}
       @file_manager.dump_object_as_file(parsed_resource)
     end
