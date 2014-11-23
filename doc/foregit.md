@@ -6,17 +6,17 @@ You can describe and maintain a Foreman instance through a Git repository.
 
 ### Install and configure
 
-Step 1: Install the gem
+#### Step 1: Install the gem
 
 `gem install foregit`
 
-Step 2: Add a configuration file
+#### Step 2: Add a configuration file
 
 Foregit is using a `hammer-cli` plugin for commands. So, you should add the module settings either in
 `/etc/hammer/cli.modules.d/foregit.yml` or `/home/.hammer/cli.modules.d/foregit.yml` directories.  
 You can copy the `foregit/config/foregit.yml` to one of the directories above,
 
-Step 3: Add your settings
+#### Step 3: Add your settings
 
 Add settings like: 
  - Foreman URL, Foreman API client and token
