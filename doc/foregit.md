@@ -1,6 +1,6 @@
 ## Foregit
 
-Foregit is an interface between Foreman and Git. 
+Foregit is an interface between Foreman and Git.  
 You can describe and maintain a Foreman instance through a Git repository.
 
 
@@ -13,7 +13,7 @@ Step 1: Install the gem
 Step 2: Add a configuration file
 
 Foregit is using a `hammer-cli` plugin for commands. So, you should add the module settings either in
-`/etc/hammer/cli.modules.d/foregit.yml` or `/home/.hammer/cli.modules.d/foregit.yml` directories.
+`/etc/hammer/cli.modules.d/foregit.yml` or `/home/.hammer/cli.modules.d/foregit.yml` directories.  
 You can copy the `foregit/config/foregit.yml` to one of the directories above,
 
 Step 3: Add your settings
@@ -44,7 +44,13 @@ Otherwise, it will:
 
    - Command `hammer push`
    - Options: resources list
+ 
+If you want to update or delete a resource, you just have to:
+   - for **update** - edit the resource file in the Git directory, and save the file,
+   - for **delete** - run the `git rm <file_or_directory` command.
 
+And then run the `hammer push` command. It will detect the change type and it will call the correct action on the resource, with the updated attributes.
+ 
 #### Create a new Foreman resource
 
 There are two ways of creating a new resource in the Foreman instance, which will be also synced in the Git repository
