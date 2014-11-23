@@ -49,8 +49,10 @@ If you want to update or delete a resource, you just have to:
    - for **update** - edit the resource file in the Git directory, and save the file,
    - for **delete** - run the `git rm <file_or_directory` command.
 
-And then run the `hammer push` command. It will detect the change type and it will call the correct action on the resource, with the updated attributes.
- 
+And then run the `hammer push` command. It will detect the change type and it will call the correct action on the resource, with the updated attributes.  
+
+If you want to create a new resource, read below.
+
 #### Create a new Foreman resource
 
 There are two ways of creating a new resource in the Foreman instance, which will be also synced in the Git repository
@@ -74,6 +76,6 @@ The file content should look like this:
 If you don't want to bother with finding a proper ID and saving the file in the correct path, you can use `hammer add -r <resource_name` and one of the options:
 
  - `-f <file_name>` - where the file is a JSON file representing the resource attributes as the one described above. The "id" field is optional.
- - `-a field_name=field_value,field_name_two=field_value_two` - pass a list of *key=value* pairs for each field you want to configure.
+ - `-a field_name=field_value,field_name_two=field_value_two` - pass a list of *key=value* pairs for each field you want to set. Remember the required fields, and that the "id" is optional.
 
 The command will create the resource in the Foreman instance, sync Foreman resource in the Git repository and commit the changes.
