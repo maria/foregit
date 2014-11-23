@@ -4,6 +4,8 @@ sync command
     - download(settings[resources])
     - file manager
 =end
+require 'active_support/inflector'
+require 'json'
 
 require 'file_manager'
 require 'git_manager'
@@ -24,16 +26,9 @@ module Foregit
     # Download resources from Foreman and save them as files in the Git repo
     def pull(foreman_resources=nil)
       resources = @binding.download_resources(foreman_resources)
-
       resources.each do |resource_type, resources_content|
         resources_content.each do |resource_content|
-
-          resource = {:type => resource_type.to_s,
-                      :name => "#{resource_content["id"].to_s}_#{resource_content["name"].to_s}",
-                      :content => resource_content
-                    }
-
-          @file_manager.dump_object_as_file(resource)
+          dump_resource_as_file(resource_type, resource_content)
         end
       end
     end
@@ -67,24 +62,44 @@ module Foregit
           data = @file_manager.load_file_as_json(change[:file])
         end
 
-        begin
-          puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
-          @binding.call_action(resource_type, resource_action, data)
-        rescue Exception => e
-          puts "Error while calling action to Foreman: #{e}."
+        call_action_for_resource_content(resource_type, resource_action, data)
+      end
+    end
+
+    # Create resource in Foreman with the given configuration.
+    # Pull changes in theGit repository after.
+    def add resource_type, attributes
+
+      if attributes.has_key? "id"
+        if !@binding.call_action(resource_type, :show, {:id => attributes["id"]}).nil?
+          puts "Resource with given id #{attributes["id"]} exists. Update attribute or remove it."
           return
         end
       end
 
-      puts "Changes were synced."
-      tag = Time.now.to_i.to_s
-      @git_manager.commit("Commit existent changes. Tag: #{tag}")
-      @git_manager.git.add_tag(tag)
-      puts("Tagged repository with #{tag}.")
-
+      call_action_for_resource_content(resource_type, :create, {ActiveSupport::Inflector.singularize(resource_type) => attributes})
+      pull resource_type
     end
 
     private
+
+    def call_action_for_resource_content(resource_type, resource_action, data)
+      begin
+        puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
+        @binding.call_action(resource_type, resource_action, data)
+      rescue Exception => e
+        puts "Error while calling action to Foreman: #{e}."
+        return
+      end
+    end
+
+    def dump_resource_as_file(resource_type, resource_content)
+      parsed_resource = {:type => resource_type.to_s,
+                         :name => "#{resource_content['id']}_#{resource_content['name']}",
+                         :content => resource_content}
+      @file_manager.dump_object_as_file(parsed_resource)
+    end
+
     def get_action_based_on_change(type)
       if type == 'D'
         return :destroy

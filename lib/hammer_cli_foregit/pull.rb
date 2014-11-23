@@ -11,7 +11,7 @@ module HammerCLIForegit
       super
       puts "Sync from Foreman #{option_resources || 'all'} resources to Git repository..."
       @talk.pull option_resources
-      @git_manager.commit("Sync #{option_resources || 'all'} resources")
+      @git_manager.commit("Sync #{option_resources || 'all'} resources.")
       puts 'Done!'
       HammerCLI::EX_OK
     end
