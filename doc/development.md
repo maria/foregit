@@ -8,10 +8,20 @@ and I can restore a working environment easily without affecting other projects.
   I use [Vagrant](http://www.vagrantup.com/) because is easy to install and configure. 
 You can create a Vagrant box following [my tutorial](https://github.com/marianitadn/vagrant).
 
+## Use project Vagrant
 
+  You can use the Vagrantfile provided for the project, which also has a provisioning script. Hence you can skip the above steps.
+  Commands:
+    - `git clone <foregit_repo_url>`
+    - `cd <foregit_repo_path>`
+    - `vagrant up`
+    - `vagrant provision`
+
+You can change the Vagrantfile with your custom settings before doing the above.
+  
 ## Clone Foreman
 
-- Clone the project repo on your localhost
+- Clone the project repo on your localhos
 
 - Sync the directory with Vagrant, by editing the Vagrantfile:
  
