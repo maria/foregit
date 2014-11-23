@@ -1,7 +1,7 @@
 ## Foregit
 
-Foregit is an interface between Foreman and Git. You can synchronize and define
-a Foreman instance through a Git repository.
+Foregit is an interface between Foreman and Git. 
+You can describe and maintain a Foreman instance through a Git repository.
 
 
 ### Install and configure
@@ -12,25 +12,33 @@ Step 1: Install the gem
 
 Step 2: Add a configuration file
 
-Foregit is a `hammer-cli` plugin, so you should add the module settings either in
-`/etc/hammer/cli.modules.d/foregit.yml` or `/home/.hammer/cli.modules.d/foregit.yml`.
-
-Copy the `foregit/config/foregit.yml` to one of the directories above.
+Foregit is using a `hammer-cli` plugin for commands. So, you should add the module settings either in
+`/etc/hammer/cli.modules.d/foregit.yml` or `/home/.hammer/cli.modules.d/foregit.yml` directories.
+You can copy the `foregit/config/foregit.yml` to one of the directories above,
 
 Step 3: Add your settings
-Add your settings, like API client and token, or Git repo path.
+
+Add settings like: 
+ - Foreman URL, Foreman API client and token
+ - the desired path for your Git repo
+ - an existent GitHub URL for the repo
 
 ### Sync Foreman and Git
 
 #### Sync Foreman configuration into Git repository
 
   - Command: `hammer pull`
-  - Options: resources list
+  - Options: a list of resources
 
-If it's the first time you use it, it will check for a GitHub repo URL in your settings file, and clone it on the machine.
-Else, it will create a directory with the given path and sync Foreman resources in the new Git project.
-In general the command downloads Foreman resources in the Git project and commit the changes.
+If it's the first time you use the command on the machine then it will do:
+  - check for a GitHub repo URL in your settings file
+  - if it exists, then clone it on the machine at the given Git repo path
+  - else initialize a new Git project in the given Git repo path
+  - download the Foreman resource on machine and commit changes
 
+Otherwise, it will: 
+  - download Foreman resources in the Git repo path
+  - commit changes
 
 #### Sync Git repository into Foreman instance
 
@@ -39,9 +47,9 @@ In general the command downloads Foreman resources in the Git project and commit
 
 #### Create a new Foreman resource
 
-	There are two ways of creating a new resource in the Foreman instance, which will be synced in the Git repository
+There are two ways of creating a new resource in the Foreman instance, which will be also synced in the Git repository
 
-    - Create file in Git repository and do `hammer push`:
+ - Create file in Git repository and do `hammer push`:
 
 Create a JSON file in `git_repo_path>/resource_name/`, the file name has to be: `id_name.json`.
 So, you should know what id the new resource is going to have, and that no other resource exists with that ID.
@@ -55,11 +63,11 @@ The file content should look like this:
 }
 ```
 
-    - Use the `hammer add` command:
+ - Use the `hammer add` command:
 
- If you don't want to bother with finding a proper ID and saving the file in the correct path, you can use `hammer add -r <resource_name` and one of the options:
+If you don't want to bother with finding a proper ID and saving the file in the correct path, you can use `hammer add -r <resource_name` and one of the options:
 
-      - `-f <file_name>` - where the file is a JSON file representing the resource attributes as the one described above. The "id" field is optional.
-      - `-a field_name=field_value,field_name_two=field_value_two` - pass a list of *key=value* pairs for each field you want to configure.
+ - `-f <file_name>` - where the file is a JSON file representing the resource attributes as the one described above. The "id" field is optional.
+ - `-a field_name=field_value,field_name_two=field_value_two` - pass a list of *key=value* pairs for each field you want to configure.
 
 The command will create the resource in the Foreman instance, sync Foreman resource in the Git repository and commit the changes.
