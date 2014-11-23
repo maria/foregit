@@ -4,6 +4,7 @@ sync command
     - download(settings[resources])
     - file manager
 =end
+require 'active_support/inflector'
 require 'json'
 
 require 'file_manager'
@@ -76,7 +77,7 @@ module Foregit
         end
       end
 
-      call_action_for_resource_content(resource_type, :create, attributes)
+      call_action_for_resource_content(resource_type, :create, {ActiveSupport::Inflector.singularize(resource_type) => attributes})
       pull resource_type
     end
 
