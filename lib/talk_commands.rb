@@ -61,26 +61,12 @@ module Foregit
           data = @file_manager.load_file_as_json(change[:file])
         end
 
-        begin
-          puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
-          @binding.call_action(resource_type, resource_action, {resource_type => data})
-        rescue Exception => e
-          puts "Error while calling action to Foreman: #{e}."
-          return
-        end
+        call_action_for_resource_content(resource_type, resource_action, data)
       end
-
-      puts "Changes were synced."
-      tag = Time.now.to_i.to_s
-      @git_manager.commit("Commit existent changes. Tag: #{tag}")
-      @git_manager.git.add_tag(tag)
-      puts("Tagged repository with #{tag}.")
-
     end
 
-    # Create a JSON respresentation in the Git repository for a new resource
-    # Check for a valid id for the given resource, create a file with the
-    # correct naming in the repository and dump attributes as JSON.
+    # Create resource in Foreman with the given configuration.
+    # Pull changes in theGit repository after.
     def add resource_type, attributes
 
       if attributes.has_key? "id"
@@ -90,12 +76,21 @@ module Foregit
         end
       end
 
-      puts "Creating resource #{resource_type} with attributes: #{attributes} to Foreman..."
-      @binding.call_action(resource_type, :create, attributes)
+      call_action_for_resource_content(resource_type, :create, attributes)
       pull resource_type
     end
 
     private
+
+    def call_action_for_resource_content(resource_type, resource_action, data)
+      begin
+        puts("#{resource_action.capitalize} #{resource_type} with #{data}...")
+        @binding.call_action(resource_type, resource_action, data)
+      rescue Exception => e
+        puts "Error while calling action to Foreman: #{e}."
+        return
+      end
+    end
 
     def dump_resource_as_file(resource_type, resource_content)
       parsed_resource = {:type => resource_type.to_s,

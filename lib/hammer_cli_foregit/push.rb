@@ -11,6 +11,12 @@ module HammerCLIForegit
       super
       puts "Syncing from Git repository #{option_resources || 'all'} resources to Foreman..."
       @talk.push option_resources
+
+      tag = Time.now.to_i.to_s
+      @git_manager.commit("Sync #{option_resources}. Tag: #{tag}")
+      @git_manager.git.add_tag(tag)
+      puts("Tagged repository with #{tag}.")
+
       puts 'Done!'
       HammerCLI::EX_OK
     end

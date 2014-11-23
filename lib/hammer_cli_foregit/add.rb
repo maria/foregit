@@ -20,6 +20,7 @@ module HammerCLIForegit
       super
       puts "Creating JSON representation of #{option_resource} resource in Git repo..."
       @talk.add option_resource, option_file || option_attributes
+      @git_manager.commit("Sync #{option_resource}.")
       puts 'Done!'
       HammerCLI::EX_OK
     end
